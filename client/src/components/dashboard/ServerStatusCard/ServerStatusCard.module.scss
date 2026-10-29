@@ -1,0 +1,106 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.card {
+  @include card-surface;
+  padding: $space-lg;
+  border-left: 3px solid $color-primary-500;
+
+  @include respond-below('mobile') {
+    padding: $space-md;
+  }
+}
+
+.header {
+  @include flex-between;
+  gap: $space-sm;
+  margin-bottom: $space-sm;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.title {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-text-main;
+}
+
+.statusIndicator {
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-full;
+
+  &.online {
+    background-color: $color-primary-500;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+  }
+
+  &.offline {
+    background-color: $color-expense;
+    box-shadow: 0 0 8px rgba(244, 63, 94, 0.6);
+  }
+
+  &.loading {
+    background-color: $color-warning;
+  }
+}
+
+.description {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  margin-bottom: $space-md;
+  line-height: 1.4;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-sm;
+  padding: $space-sm;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: $radius-md;
+  margin-bottom: $space-md;
+
+  @include respond-below('mobile') {
+    grid-template-columns: 1fr;
+    gap: $space-xs;
+  }
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  font-size: $font-size-xs;
+}
+
+.detailKey {
+  color: $color-text-subtle;
+}
+
+.detailVal {
+  font-family: $font-mono;
+  color: $color-text-main;
+  font-weight: $font-weight-medium;
+}
+
+.errorBox {
+  padding: $space-xs $space-sm;
+  background-color: $color-expense-bg;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  border-radius: $radius-md;
+  color: $color-expense;
+  font-size: $font-size-xs;
+  margin-bottom: $space-md;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+

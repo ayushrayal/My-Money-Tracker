@@ -1,0 +1,101 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-md;
+  margin-bottom: $space-lg;
+
+  @include respond-to('mobile') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to('desktop') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.metricCard {
+  @include card-surface;
+  padding: $space-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  position: relative;
+
+  @include respond-below('mobile') {
+    padding: $space-md;
+  }
+
+  &.primaryHighlight {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(24, 34, 52, 1) 100%);
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+}
+
+.topRow {
+  @include flex-between;
+}
+
+.label {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.iconBadge {
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-md;
+  @include flex-center;
+
+  &.balance {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: $color-primary-500;
+  }
+
+  &.income {
+    background-color: $color-income-bg;
+    color: $color-income;
+  }
+
+  &.expense {
+    background-color: $color-expense-bg;
+    color: $color-expense;
+  }
+
+  &.savings {
+    background-color: $color-info-bg;
+    color: $color-info;
+  }
+}
+
+.amount {
+  font-family: $font-mono;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-heavy;
+  letter-spacing: -0.02em;
+  color: $color-text-main;
+  line-height: 1.1;
+
+  @include respond-below('mobile') {
+    font-size: $font-size-xl;
+  }
+}
+
+.bottomRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xs;
+  margin-top: $space-2xs;
+}
+
+.footnote {
+  font-size: $font-size-xs;
+  color: $color-text-subtle;
+}
+

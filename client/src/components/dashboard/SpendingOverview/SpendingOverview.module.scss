@@ -1,0 +1,108 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.overviewCard {
+  @include card-surface;
+  padding: $space-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+
+  @include respond-below('mobile') {
+    padding: $space-md;
+    gap: $space-md;
+  }
+}
+
+.headerRow {
+  @include flex-between;
+  gap: $space-sm;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-main;
+}
+
+.subtitle {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+}
+
+.progressBarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.progressStats {
+  @include flex-between;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+}
+
+.spentAmount {
+  font-family: $font-mono;
+  font-weight: $font-weight-bold;
+  color: $color-text-main;
+  font-size: $font-size-sm;
+}
+
+.limitAmount {
+  font-family: $font-mono;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: $radius-full;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressBar {
+  height: 100%;
+  border-radius: $radius-full;
+  background: linear-gradient(90deg, $color-primary-500 0%, $color-warning 100%);
+  transition: width $transition-base;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-sm;
+  padding-top: $space-md;
+  border-top: 1px solid $color-border-subtle;
+
+  @include respond-below('mobile-sm') {
+    grid-template-columns: 1fr;
+    gap: $space-xs;
+  }
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.statLabel {
+  font-size: $font-size-xs;
+  color: $color-text-subtle;
+}
+
+.statValue {
+  font-family: $font-mono;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-text-main;
+}
+

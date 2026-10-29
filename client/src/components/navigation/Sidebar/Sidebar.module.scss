@@ -1,0 +1,116 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.sidebar {
+  display: none;
+  width: $sidebar-width;
+  background-color: $color-surface-base;
+  border-right: 1px solid $color-border-subtle;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  flex-direction: column;
+  z-index: 40;
+
+  @include respond-to('desktop') {
+    display: flex;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-lg $space-xl;
+  border-bottom: 1px solid $color-border-subtle;
+  height: $header-height;
+}
+
+.logoIcon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, $color-primary-500, $color-primary-700);
+  border-radius: $radius-lg;
+  @include flex-center;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.35);
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+}
+
+.appName {
+  font-size: $font-size-base;
+  font-weight: $font-weight-heavy;
+  color: $color-text-main;
+  letter-spacing: -0.01em;
+}
+
+.appTagline {
+  font-size: $font-size-xs;
+  color: $color-text-subtle;
+}
+
+.nav {
+  padding: $space-lg $space-md;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.navSectionTitle {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  color: $color-text-subtle;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: $space-xs $space-sm;
+  margin-bottom: $space-2xs;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  padding: $space-sm $space-md;
+  border-radius: $radius-lg;
+  color: $color-text-muted;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-sm;
+  transition: all $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    background-color: $color-surface-hover;
+    color: $color-text-main;
+  }
+
+  &.active {
+    background-color: rgba(16, 185, 129, 0.14);
+    color: $color-primary-500;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+}
+
+.footer {
+  padding: $space-md $space-xl;
+  border-top: 1px solid $color-border-subtle;
+}
+
+.versionBadge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: $font-size-xs;
+  color: $color-text-subtle;
+}
+

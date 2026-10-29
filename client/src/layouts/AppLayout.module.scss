@@ -1,0 +1,39 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.appShell {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: $color-bg-app;
+}
+
+.mainWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  position: relative;
+}
+
+.mainContent {
+  flex: 1;
+  padding: $space-md;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  // Space for bottom mobile nav on mobile devices
+  padding-bottom: calc(#{$bottom-nav-height} + env(safe-area-inset-bottom, 0px) + #{$space-xl});
+
+  @include respond-to('tablet') {
+    padding: $space-lg;
+    padding-bottom: calc(#{$bottom-nav-height} + #{$space-xl});
+  }
+
+  @include respond-to('desktop') {
+    padding: $space-xl;
+    padding-bottom: $space-2xl;
+  }
+}
+

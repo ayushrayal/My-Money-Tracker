@@ -1,0 +1,67 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.mobileNav {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(#{$bottom-nav-height} + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background-color: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid $color-border-subtle;
+  z-index: 50;
+  align-items: center;
+  justify-content: space-around;
+
+  @include respond-to('desktop') {
+    display: none;
+  }
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  flex: 1;
+  height: 100%;
+  color: $color-text-subtle;
+  font-size: 0.6875rem; // 11px
+  font-weight: $font-weight-medium;
+  min-width: 0;
+  padding: 4px 2px;
+  transition: color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    color: $color-text-main;
+  }
+
+  &.active {
+    color: $color-primary-500;
+    font-weight: $font-weight-bold;
+
+    .iconWrapper {
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform $transition-fast;
+}
+
+.navLabel {
+  @include text-truncate;
+  max-width: 100%;
+}
+

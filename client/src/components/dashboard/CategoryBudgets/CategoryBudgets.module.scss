@@ -1,0 +1,100 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.card {
+  @include card-surface;
+  padding: $space-lg;
+
+  @include respond-below('mobile') {
+    padding: $space-md;
+  }
+}
+
+.header {
+  @include flex-between;
+  margin-bottom: $space-md;
+}
+
+.title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-main;
+}
+
+.categoryList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.categoryItem {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2xs;
+}
+
+.itemHeader {
+  @include flex-between;
+  font-size: $font-size-sm;
+}
+
+.itemLeft {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.icon {
+  color: $color-text-muted;
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  font-weight: $font-weight-medium;
+  color: $color-text-main;
+}
+
+.itemRight {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.amounts {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+}
+
+.spent {
+  color: $color-text-main;
+  font-weight: $font-weight-semibold;
+}
+
+.track {
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: $radius-full;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: $radius-full;
+  transition: width $transition-base;
+
+  &.safe {
+    background-color: $color-primary-500;
+  }
+
+  &.warning {
+    background-color: $color-warning;
+  }
+
+  &.danger {
+    background-color: $color-expense;
+  }
+}
+

@@ -1,0 +1,78 @@
+@use './variables' as *;
+
+// Responsive Breakpoint Mixin
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'mobile-sm' {
+    @media (min-width: $bp-mobile-sm) { @content; }
+  } @else if $breakpoint == 'mobile' {
+    @media (min-width: $bp-mobile) { @content; }
+  } @else if $breakpoint == 'tablet' {
+    @media (min-width: $bp-tablet) { @content; }
+  } @else if $breakpoint == 'desktop' {
+    @media (min-width: $bp-desktop) { @content; }
+  } @else if $breakpoint == 'desktop-lg' {
+    @media (min-width: $bp-desktop-lg) { @content; }
+  } @else {
+    @media (min-width: $breakpoint) { @content; }
+  }
+}
+
+// Max-width Breakpoint Mixin (for mobile-only styles)
+@mixin respond-below($breakpoint) {
+  @if $breakpoint == 'tablet' {
+    @media (max-width: ($bp-tablet - 0.02px)) { @content; }
+  } @else if $breakpoint == 'desktop' {
+    @media (max-width: ($bp-desktop - 0.02px)) { @content; }
+  } @else {
+    @media (max-width: $breakpoint) { @content; }
+  }
+}
+
+// Accessible Focus State
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid $color-border-focus;
+    outline-offset: 2px;
+  }
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+// Flex centering
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Card surface styling
+@mixin card-surface {
+  background-color: $color-surface-card;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+}
+
+// Text truncation
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Smooth interactive hover
+@mixin interactive-surface {
+  transition: background-color $transition-fast, border-color $transition-fast, transform $transition-fast;
+  &:hover {
+    background-color: $color-surface-hover;
+    border-color: $color-border-hover;
+  }
+}
+

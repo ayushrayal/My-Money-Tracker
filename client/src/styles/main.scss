@@ -1,0 +1,39 @@
+@use './variables' as *;
+@use './mixins' as *;
+@use './reset' as *;
+@use './typography' as *;
+
+// App-wide layout utilities
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $space-md;
+  padding-right: $space-md;
+
+  @include respond-to('tablet') {
+    padding-left: $space-xl;
+    padding-right: $space-xl;
+  }
+}
+
+// Custom subtle scrollbars
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: $radius-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+

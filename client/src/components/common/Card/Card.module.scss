@@ -1,0 +1,60 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.card {
+  @include card-surface;
+  padding: $space-lg;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+
+  @include respond-below('mobile') {
+    padding: $space-md;
+  }
+
+  &.interactive {
+    @include interactive-surface;
+  }
+
+  &.highlight {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(24, 34, 52, 1) 100%);
+    border-color: rgba(16, 185, 129, 0.25);
+  }
+}
+
+.header {
+  @include flex-between;
+  gap: $space-sm;
+  margin-bottom: $space-md;
+}
+
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2xs;
+}
+
+.title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-main;
+}
+
+.subtitle {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+}
+
+.body {
+  flex: 1;
+}
+
+.footer {
+  margin-top: $space-md;
+  padding-top: $space-sm;
+  border-top: 1px solid $color-border-subtle;
+  font-size: $font-size-xs;
+  color: $color-text-subtle;
+}
+

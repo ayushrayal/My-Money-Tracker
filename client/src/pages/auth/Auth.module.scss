@@ -1,0 +1,161 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.authPage {
+  min-height: 100vh;
+  min-height: 100dvh;
+  @include flex-center;
+  padding: $space-md;
+  background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 60%), $color-bg-app;
+
+  @include respond-to('tablet') {
+    padding: $space-2xl;
+  }
+}
+
+.authCard {
+  @include card-surface;
+  width: 100%;
+  max-width: 440px;
+  padding: $space-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  box-shadow: $shadow-lg;
+
+  @include respond-below('mobile') {
+    padding: $space-lg;
+  }
+}
+
+.brandHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $space-sm;
+}
+
+.logoIcon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, $color-primary-500, $color-primary-700);
+  border-radius: $radius-xl;
+  @include flex-center;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+}
+
+.title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-heavy;
+  color: $color-text-main;
+}
+
+.subtitle {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2xs;
+}
+
+.label {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $color-text-main;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  padding: $space-xs $space-md;
+  background-color: $color-surface-base;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-md;
+  color: $color-text-main;
+  font-size: $font-size-sm;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+
+  @include focus-ring;
+
+  &::placeholder {
+    color: $color-text-subtle;
+  }
+
+  &.hasError {
+    border-color: $color-expense;
+  }
+
+  &.withIconRight {
+    padding-right: 42px;
+  }
+}
+
+.togglePasswordBtn {
+  position: absolute;
+  right: $space-xs;
+  color: $color-text-subtle;
+  padding: $space-2xs;
+  border-radius: $radius-sm;
+  @include flex-center;
+  transition: color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    color: $color-text-main;
+  }
+}
+
+.fieldError {
+  font-size: $font-size-xs;
+  color: $color-expense;
+}
+
+.serverAlert {
+  padding: $space-xs $space-sm;
+  background-color: $color-expense-bg;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  border-radius: $radius-md;
+  color: $color-expense;
+  font-size: $font-size-xs;
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.submitBtn {
+  width: 100%;
+  margin-top: $space-xs;
+}
+
+.footer {
+  text-align: center;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+
+  a {
+    color: $color-primary-500;
+    font-weight: $font-weight-semibold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+

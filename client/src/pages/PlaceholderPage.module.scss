@@ -1,0 +1,41 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.placeholderContainer {
+  @include card-surface;
+  padding: $space-2xl $space-xl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $space-md;
+  max-width: 600px;
+  margin: $space-2xl auto;
+}
+
+.iconCircle {
+  width: 64px;
+  height: 64px;
+  border-radius: $radius-full;
+  background-color: rgba(16, 185, 129, 0.12);
+  color: $color-primary-500;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  @include flex-center;
+}
+
+.title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-main;
+}
+
+.description {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  line-height: 1.6;
+}
+
+.actions {
+  margin-top: $space-sm;
+}
+

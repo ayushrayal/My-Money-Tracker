@@ -1,0 +1,60 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.demoBanner {
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.08) 100%);
+  border: 1px solid $color-demo-border;
+  border-radius: $radius-lg;
+  padding: $space-sm $space-md;
+  margin-bottom: $space-lg;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-md;
+
+  @include respond-below('mobile') {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-xs;
+    padding: $space-sm;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.iconWrapper {
+  color: $color-demo-text;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $color-demo-text;
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.description {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  line-height: 1.4;
+}
+
+.actions {
+  flex-shrink: 0;
+}
+

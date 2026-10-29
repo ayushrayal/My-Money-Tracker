@@ -1,0 +1,31 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-lg;
+
+  @include respond-to('desktop') {
+    grid-template-columns: 7fr 5fr;
+  }
+}
+
+.primaryColumn {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.secondaryColumn {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+

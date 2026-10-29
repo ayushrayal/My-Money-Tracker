@@ -1,0 +1,141 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.card {
+  @include card-surface;
+  padding: $space-lg;
+
+  @include respond-below('mobile') {
+    padding: $space-md;
+  }
+}
+
+.header {
+  @include flex-between;
+  margin-bottom: $space-md;
+}
+
+.title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-main;
+}
+
+.transactionList {
+  display: flex;
+  flex-direction: column;
+}
+
+.transactionItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-sm;
+  padding: $space-sm 0;
+  border-bottom: 1px solid $color-border-subtle;
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  &:first-child {
+    padding-top: 0;
+  }
+}
+
+.leftCol {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  min-width: 0;
+}
+
+.iconCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-lg;
+  @include flex-center;
+  flex-shrink: 0;
+
+  &.salary {
+    background-color: $color-income-bg;
+    color: $color-income;
+  }
+
+  &.groceries {
+    background-color: rgba(56, 189, 248, 0.14);
+    color: #38bdf8;
+  }
+
+  &.dining {
+    background-color: rgba(245, 158, 11, 0.14);
+    color: #f59e0b;
+  }
+
+  &.loan {
+    background-color: rgba(168, 85, 247, 0.14);
+    color: #a855f7;
+  }
+
+  &.utilities {
+    background-color: rgba(244, 63, 94, 0.14);
+    color: #f43f5e;
+  }
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.titleText {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-main;
+  @include text-truncate;
+}
+
+.subMeta {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  font-size: $font-size-xs;
+  color: $color-text-subtle;
+}
+
+.accountBadge {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1px 6px;
+  border-radius: $radius-xs;
+}
+
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.amount {
+  font-family: $font-mono;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+
+  &.income {
+    color: $color-income;
+  }
+
+  &.expense {
+    color: $color-text-main;
+  }
+}
+
+.statusText {
+  font-size: $font-size-xs;
+  color: $color-text-subtle;
+}
+

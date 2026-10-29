@@ -1,0 +1,127 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.header {
+  height: $header-height;
+  background-color: rgba(17, 24, 39, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid $color-border-subtle;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  padding: 0 $space-md;
+
+  @include respond-to('tablet') {
+    padding: 0 $space-xl;
+  }
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.mobileBrand {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+
+  @include respond-to('desktop') {
+    display: none;
+  }
+}
+
+.mobileLogo {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, $color-primary-500, $color-primary-700);
+  border-radius: $radius-md;
+  @include flex-center;
+  color: #ffffff;
+}
+
+.mobileTitle {
+  font-size: $font-size-base;
+  font-weight: $font-weight-heavy;
+  color: $color-text-main;
+}
+
+.desktopTitle {
+  display: none;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-main;
+
+  @include respond-to('desktop') {
+    display: block;
+  }
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.dateFilter {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  padding: $space-2xs $space-sm;
+  background-color: $color-surface-card;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-lg;
+  color: $color-text-muted;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  user-select: none;
+
+  @include respond-below('mobile') {
+    display: none;
+  }
+}
+
+.userControls {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-full;
+  background-color: rgba(16, 185, 129, 0.15);
+  color: $color-primary-500;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-weight: $font-weight-bold;
+  font-size: $font-size-sm;
+  @include flex-center;
+  user-select: none;
+}
+
+.logoutBtn {
+  color: $color-text-subtle;
+  padding: 6px;
+  border-radius: $radius-md;
+  @include flex-center;
+  transition: all $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    color: $color-expense;
+    background-color: $color-expense-bg;
+  }
+}

@@ -1,0 +1,54 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2xs;
+  padding: 0.2rem 0.55rem;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-full;
+  line-height: 1.2;
+  white-space: nowrap;
+  width: fit-content;
+
+  &.income {
+    background-color: $color-income-bg;
+    color: $color-income;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  &.expense {
+    background-color: $color-expense-bg;
+    color: $color-expense;
+    border: 1px solid rgba(244, 63, 94, 0.3);
+  }
+
+  &.warning {
+    background-color: $color-warning-bg;
+    color: $color-warning;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  &.info {
+    background-color: $color-info-bg;
+    color: $color-info;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+  }
+
+  &.demo {
+    background-color: $color-demo-bg;
+    color: $color-demo-text;
+    border: 1px solid $color-demo-border;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &.neutral {
+    background-color: rgba(255, 255, 255, 0.07);
+    color: $color-text-muted;
+    border: 1px solid $color-border-subtle;
+  }
+}
+

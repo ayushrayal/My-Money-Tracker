@@ -1,0 +1,32 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.loadingContainer {
+  min-height: 100vh;
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-md;
+  background-color: $color-bg-app;
+  color: $color-text-muted;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(16, 185, 129, 0.2);
+  border-top-color: $color-primary-500;
+  border-radius: $radius-full;
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingText {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+}
+
