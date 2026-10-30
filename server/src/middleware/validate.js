@@ -29,3 +29,5 @@ export function validateRequest(schema) {
   };
 }
 
+export const validate = validateRequest;
+

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Wallet, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { Wallet, Eye, EyeOff, AlertCircle, Check, Circle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/common/Button/Button';
+import { Select } from '../../components/common/Select/Select';
 import styles from './Auth.module.scss';
 
 const CURRENCIES = [
@@ -28,6 +29,12 @@ export function SignupPage() {
   const [errorMessage, setErrorMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
 
+  // Dynamic password criteria validation
+  const hasMinLength = password.length >= 8;
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const isPasswordValid = hasMinLength && hasUppercase && hasNumber;
+
   const validate = () => {
     const errors = {};
     if (!name || name.trim().length < 2) {
@@ -36,12 +43,8 @@ export function SignupPage() {
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       errors.email = 'Please provide a valid email address.';
     }
-    if (!password || password.length < 8) {
-      errors.password = 'Password must be at least 8 characters long.';
-    } else if (!/[A-Z]/.test(password)) {
-      errors.password = 'Password must include at least one uppercase letter.';
-    } else if (!/[0-9]/.test(password)) {
-      errors.password = 'Password must include at least one numeric digit.';
+    if (!isPasswordValid) {
+      errors.password = 'Please fulfill all password requirements below.';
     }
     return errors;
   };
@@ -101,13 +104,16 @@ export function SignupPage() {
                 autoComplete="name"
                 placeholder="e.g. Alex Morgan"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (fieldErrors.name) setFieldErrors((prev) => ({ ...prev, name: null }));
+                }}
                 className={`${styles.input} ${fieldErrors.name ? styles.hasError : ''}`}
                 disabled={isSubmitting}
               />
             </div>
             {fieldErrors.name && (
-              <span className={styles.fieldError}>{fieldErrors.name}</span>
+              <span className={styles.fieldError} role="alert">{fieldErrors.name}</span>
             )}
           </div>
 
@@ -123,13 +129,16 @@ export function SignupPage() {
                 autoComplete="email"
                 placeholder="you@example.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (fieldErrors.email) setFieldErrors((prev) => ({ ...prev, email: null }));
+                }}
                 className={`${styles.input} ${fieldErrors.email ? styles.hasError : ''}`}
                 disabled={isSubmitting}
               />
             </div>
             {fieldErrors.email && (
-              <span className={styles.fieldError}>{fieldErrors.email}</span>
+              <span className={styles.fieldError} role="alert">{fieldErrors.email}</span>
             )}
           </div>
 
@@ -143,9 +152,12 @@ export function SignupPage() {
                 type={showPassword ? 'text' : 'password'}
                 required
                 autoComplete="new-password"
-                placeholder="Min 8 chars, 1 uppercase, 1 number"
+                placeholder="Enter password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (fieldErrors.password) setFieldErrors((prev) => ({ ...prev, password: null }));
+                }}
                 className={`${styles.input} ${styles.withIconRight} ${
                   fieldErrors.password ? styles.hasError : ''
                 }`}
@@ -156,34 +168,47 @@ export function SignupPage() {
                 className={styles.togglePasswordBtn}
                 onClick={() => setShowPassword((prev) => !prev)}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
+                aria-pressed={showPassword}
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
             {fieldErrors.password && (
-              <span className={styles.fieldError}>{fieldErrors.password}</span>
+              <span className={styles.fieldError} role="alert">{fieldErrors.password}</span>
             )}
+
+            {/* Live Password Requirements Checklist */}
+            <ul className={styles.passwordChecklist} aria-label="Password requirements">
+              <li className={hasMinLength ? styles.met : styles.unmet}>
+                {hasMinLength ? <Check size={13} aria-hidden="true" /> : <Circle size={10} aria-hidden="true" />}
+                <span>At least 8 characters</span>
+              </li>
+              <li className={hasUppercase ? styles.met : styles.unmet}>
+                {hasUppercase ? <Check size={13} aria-hidden="true" /> : <Circle size={10} aria-hidden="true" />}
+                <span>At least one uppercase letter (A-Z)</span>
+              </li>
+              <li className={hasNumber ? styles.met : styles.unmet}>
+                {hasNumber ? <Check size={13} aria-hidden="true" /> : <Circle size={10} aria-hidden="true" />}
+                <span>At least one numeric digit (0-9)</span>
+              </li>
+            </ul>
           </div>
 
           <div className={styles.fieldGroup}>
             <label htmlFor="signup-currency" className={styles.label}>
               Base Currency
             </label>
-            <div className={styles.inputWrapper}>
-              <select
-                id="signup-currency"
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
-                className={styles.input}
-                disabled={isSubmitting}
-              >
-                {CURRENCIES.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <Select
+              id="signup-currency"
+              value={currency}
+              onChange={(val) => setCurrency(val)}
+              options={CURRENCIES.map((c) => ({
+                value: c.code,
+                label: c.label,
+              }))}
+              disabled={isSubmitting}
+              aria-label="Base Currency"
+            />
           </div>
 
           <Button
@@ -203,4 +228,3 @@ export function SignupPage() {
     </div>
   );
 }
-

@@ -9,10 +9,11 @@
   right: 0;
   height: calc(#{$bottom-nav-height} + env(safe-area-inset-bottom, 0px));
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  background-color: rgba(17, 24, 39, 0.95);
+  background-color: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-top: 1px solid $color-border-subtle;
+  border-top: 1px solid $color-border;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.04);
   z-index: 50;
   align-items: center;
   justify-content: space-around;
@@ -30,7 +31,8 @@
   gap: 3px;
   flex: 1;
   height: 100%;
-  color: $color-text-subtle;
+  min-height: 44px;
+  color: $color-text-muted;
   font-size: 0.6875rem; // 11px
   font-weight: $font-weight-medium;
   min-width: 0;
@@ -44,11 +46,12 @@
   }
 
   &.active {
-    color: $color-primary-500;
+    color: $color-primary-green;
     font-weight: $font-weight-bold;
 
     .iconWrapper {
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      color: $color-primary-green;
     }
   }
 }
@@ -57,11 +60,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform $transition-fast;
+  transition: transform $transition-fast, color $transition-fast;
 }
 
 .navLabel {
   @include text-truncate;
   max-width: 100%;
 }
-

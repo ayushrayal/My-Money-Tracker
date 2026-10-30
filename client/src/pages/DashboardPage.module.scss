@@ -29,3 +29,34 @@
   gap: $space-lg;
 }
 
+// Mobile Floating Action Button (FAB)
+.mobileFab {
+  display: none;
+  position: fixed;
+  bottom: calc(#{$bottom-nav-height} + 16px);
+  right: 16px;
+  width: 54px;
+  height: 54px;
+  border-radius: $radius-full;
+  background-color: $color-primary-green;
+  color: #ffffff;
+  @include flex-center;
+  box-shadow: 0 4px 14px rgba(8, 127, 91, 0.4);
+  z-index: 45;
+  transition: transform $transition-fast, background-color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    background-color: $color-dark-green;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  @include respond-below('tablet') {
+    display: flex;
+  }
+}

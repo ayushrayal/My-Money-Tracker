@@ -1,60 +1,104 @@
-import { Wallet, TrendingUp, TrendingDown, PiggyBank } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, PiggyBank, PlusCircle } from 'lucide-react';
 import { Badge } from '../../common/Badge/Badge';
+import { Button } from '../../common/Button/Button';
+import { MonthPicker } from '../../common/MonthPicker/MonthPicker';
 import styles from './BalanceSummary.module.scss';
 
-// Explicitly documented as placeholder preview data
-const MOCK_BALANCE_DATA = [
-  {
-    id: 'total-balance',
-    label: 'Total Balance',
-    amount: '$18,450.00',
-    type: 'balance',
-    icon: Wallet,
-    change: '+12.4%',
-    changeVariant: 'income',
-    footnote: 'Across all accounts',
-    isPrimary: true,
-  },
-  {
-    id: 'monthly-income',
-    label: 'Monthly Income',
-    amount: '$5,200.00',
-    type: 'income',
-    icon: TrendingUp,
-    change: 'Salary + Side',
-    changeVariant: 'income',
-    footnote: 'Expected: $5,200',
-    isPrimary: false,
-  },
-  {
-    id: 'monthly-expense',
-    label: 'Monthly Expenses',
-    amount: '$2,480.00',
-    type: 'expense',
-    icon: TrendingDown,
-    change: '47.6% of income',
-    changeVariant: 'expense',
-    footnote: 'Limit: $3,200',
-    isPrimary: false,
-  },
-  {
-    id: 'net-savings',
-    label: 'Net Savings',
-    amount: '$2,720.00',
-    type: 'savings',
-    icon: PiggyBank,
-    change: '52.4% rate',
-    changeVariant: 'info',
-    footnote: 'Target: $2,000/mo',
-    isPrimary: false,
-  },
-];
+export function BalanceSummary({
+  totals,
+  isLoading,
+  selectedMonth,
+  onMonthChange,
+  onAddExpense,
+}) {
+  const income = totals?.income || 0;
+  const expense = totals?.expense || 0;
+  const netSavings = totals?.netSavings ?? (income - expense);
+  const savingsRate = totals?.savingsRate || 0;
+  const transfers = totals?.transfer || 0;
 
-export function BalanceSummary() {
+  const cards = [
+    {
+      id: 'net-cashflow',
+      label: 'Monthly Net Cashflow',
+      amount: `₹${netSavings.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+      type: 'balance',
+      icon: Wallet,
+      change: netSavings >= 0 ? 'Surplus' : 'Deficit',
+      changeVariant: netSavings >= 0 ? 'income' : 'expense',
+      footnote: 'Income minus expenses',
+      isPrimary: true,
+    },
+    {
+      id: 'monthly-income',
+      label: 'Monthly Income',
+      amount: `₹${income.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+      type: 'income',
+      icon: TrendingUp,
+      change: 'Real records',
+      changeVariant: 'income',
+      footnote: `${totals?.count || 0} total entries`,
+      isPrimary: false,
+    },
+    {
+      id: 'monthly-expense',
+      label: 'Monthly Expenses',
+      amount: `₹${expense.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+      type: 'expense',
+      icon: TrendingDown,
+      change: income > 0 ? `${Math.min(100, Math.round((expense / income) * 100))}% of income` : 'Recorded',
+      changeVariant: 'expense',
+      footnote: 'Excludes transfers',
+      isPrimary: false,
+    },
+    {
+      id: 'savings-rate',
+      label: 'Savings Rate',
+      amount: `${savingsRate}%`,
+      type: 'savings',
+      icon: PiggyBank,
+      change: netSavings >= 0 ? 'Positive' : 'Deficit',
+      changeVariant: netSavings >= 0 ? 'info' : 'warning',
+      footnote: transfers > 0 ? `+ ₹${transfers.toFixed(0)} transfers` : 'Net saved / income',
+      isPrimary: false,
+    },
+  ];
+
   return (
-    <section aria-label="Financial Balances Summary">
+    <section className={styles.sectionWrapper} aria-label="Monthly Cashflow Summary">
+      <div className={styles.topRowActionBar}>
+        <div className={styles.headerLeft}>
+          <h2 className={styles.sectionTitle}>Financial Snapshot</h2>
+        </div>
+
+        <div className={styles.headerActions}>
+          {onMonthChange && (
+            <MonthPicker
+              value={selectedMonth || ''}
+              onChange={(val) => onMonthChange(val)}
+              placeholder="Current Month"
+              allowClear={false}
+              size="sm"
+              aria-label="Select snapshot month"
+              className={styles.monthPicker}
+            />
+          )}
+
+          {onAddExpense && (
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={onAddExpense}
+            >
+              <PlusCircle size={15} />
+              <span>Add Expense</span>
+            </Button>
+          )}
+        </div>
+      </div>
+
       <div className={styles.grid}>
-        {MOCK_BALANCE_DATA.map((item) => {
+        {cards.map((item) => {
           const Icon = item.icon;
           return (
             <div
@@ -71,7 +115,9 @@ export function BalanceSummary() {
                 </div>
               </div>
 
-              <div className={styles.amount}>{item.amount}</div>
+              <div className={styles.amount}>
+                {isLoading ? '...' : item.amount}
+              </div>
 
               <div className={styles.bottomRow}>
                 <Badge variant={item.changeVariant}>{item.change}</Badge>
@@ -84,4 +130,3 @@ export function BalanceSummary() {
     </section>
   );
 }
-

@@ -17,7 +17,7 @@
   }
 }
 
-// Max-width Breakpoint Mixin (for mobile-only styles)
+// Max-width Breakpoint Mixin (mobile-only styles)
 @mixin respond-below($breakpoint) {
   @if $breakpoint == 'tablet' {
     @media (max-width: ($bp-tablet - 0.02px)) { @content; }
@@ -39,7 +39,13 @@
   }
 }
 
-// Flex centering
+// Mobile touch target minimum (44px)
+@mixin touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+// Flex centering helpers
 @mixin flex-center {
   display: flex;
   align-items: center;
@@ -52,12 +58,12 @@
   justify-content: space-between;
 }
 
-// Card surface styling
+// Clean card surface
 @mixin card-surface {
   background-color: $color-surface-card;
-  border: 1px solid $color-border-subtle;
+  border: 1px solid $color-border;
   border-radius: $radius-xl;
-  box-shadow: $shadow-sm;
+  box-shadow: $shadow-xs;
 }
 
 // Text truncation
@@ -67,12 +73,12 @@
   white-space: nowrap;
 }
 
-// Smooth interactive hover
+// Interactive surface hover
 @mixin interactive-surface {
-  transition: background-color $transition-fast, border-color $transition-fast, transform $transition-fast;
+  transition: background-color $transition-fast, border-color $transition-fast, box-shadow $transition-fast;
   &:hover {
     background-color: $color-surface-hover;
     border-color: $color-border-hover;
+    box-shadow: $shadow-sm;
   }
 }
-

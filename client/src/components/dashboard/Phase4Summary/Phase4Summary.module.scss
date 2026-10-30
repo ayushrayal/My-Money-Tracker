@@ -1,0 +1,117 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.suiteGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: $space-md;
+  margin-bottom: $space-lg;
+
+  @include respond-to('max-sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.suiteCard {
+  background-color: $color-surface-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: $space-md;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  text-decoration: none;
+  color: inherit;
+  transition: transform $transition-fast ease, border-color $transition-fast ease, box-shadow $transition-fast ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: $color-primary-green;
+    box-shadow: $shadow-md;
+  }
+
+  .cardTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .iconTitleGroup {
+      display: flex;
+      align-items: center;
+      gap: $space-xs;
+
+      .iconWrapper {
+        width: 32px;
+        height: 32px;
+        border-radius: $radius-full;
+        background-color: $color-soft-green;
+        color: $color-primary-green;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cardTitle {
+        font-size: $font-size-sm;
+        font-weight: $font-weight-semibold;
+        color: $color-text-main;
+      }
+    }
+  }
+
+  .cardMain {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: $space-2xs;
+
+    .mainAmount {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-bold;
+      font-family: $font-mono;
+      color: $color-text-main;
+    }
+
+    .mainSubtext {
+      font-size: $font-size-xs;
+      color: $color-text-muted;
+    }
+  }
+
+  .progressTrack {
+    width: 100%;
+    height: 6px;
+    background-color: $color-border-subtle;
+    border-radius: $radius-full;
+    overflow: hidden;
+    margin-top: $space-2xs;
+
+    .progressFill {
+      height: 100%;
+      border-radius: $radius-full;
+      background-color: $color-primary-green;
+      transition: width 0.3s ease;
+
+      &.warningFill {
+        background-color: $color-warning;
+      }
+
+      &.dangerFill {
+        background-color: $color-expense;
+      }
+    }
+  }
+
+  .cardFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: $font-size-xs;
+    color: $color-primary-green;
+    font-weight: $font-weight-semibold;
+    margin-top: auto;
+    padding-top: $space-2xs;
+  }
+}
+

@@ -29,3 +29,5 @@ export function verifyCsrf(req, res, next) {
   next();
 }
 
+export const verifyCsrfToken = verifyCsrf;
+

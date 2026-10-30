@@ -1,25 +1,24 @@
-import { AlertTriangle } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { Badge } from '../Badge/Badge';
 import styles from './DemoBanner.module.scss';
 
 export function DemoBanner() {
   return (
-    <aside className={styles.demoBanner} aria-label="Demo preview notice">
+    <aside className={styles.demoBanner} aria-label="Phase 4 financial suite notice">
       <div className={styles.content}>
         <div className={styles.iconWrapper} aria-hidden="true">
-          <AlertTriangle size={20} />
+          <Sparkles size={20} />
         </div>
         <div className={styles.textGroup}>
           <div className={styles.title}>
-            <span>Phase 1 UI Foundation Mode</span>
-            <Badge variant="demo">Demo Data</Badge>
+            <span>Phase 4: Full Financial Suite Active</span>
+            <Badge variant="income">Salary • Budgets • Loans • Savings</Badge>
           </div>
           <p className={styles.description}>
-            All financial balances, budgets, and transactions below are mock preview figures for responsive layout testing. No database persistence or real records are active.
+            Persistent salary receipt tracking, monthly category budget limits with 80% &amp; 100% threshold indicators, informal loan debt tracking, and emergency fund milestone goals are fully enabled and linked to your ledger.
           </p>
         </div>
       </div>
     </aside>
   );
 }
-

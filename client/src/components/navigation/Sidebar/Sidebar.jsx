@@ -55,8 +55,8 @@ export function Sidebar() {
 
       <div className={styles.footer}>
         <div className={styles.versionBadge}>
-          <span>Phase 1</span>
-          <Badge variant="neutral">Foundation</Badge>
+          <span>Ledger Vault</span>
+          <Badge variant="income">Active</Badge>
         </div>
       </div>
     </aside>

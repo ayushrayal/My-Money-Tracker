@@ -1,0 +1,82 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 110;
+  @include flex-center;
+  padding: $space-md;
+}
+
+.modal {
+  @include card-surface;
+  width: 100%;
+  max-width: 420px;
+  padding: $space-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  box-shadow: $shadow-lg;
+  animation: popIn $transition-fast;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.iconCircle {
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-full;
+  background-color: $color-expense-bg;
+  color: $color-expense;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  @include flex-center;
+  margin-bottom: $space-xs;
+}
+
+.title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-text-main;
+}
+
+.description {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  line-height: 1.5;
+}
+
+.itemSummary {
+  background-color: #F7F8F5;
+  border: 1px solid $color-border;
+  padding: $space-sm;
+  border-radius: $radius-md;
+  font-size: $font-size-xs;
+  color: $color-text-main;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer {
+  @include flex-between;
+  gap: $space-sm;
+  margin-top: $space-xs;
+
+  @include respond-below('mobile') {
+    button {
+      flex: 1;
+    }
+  }
+}

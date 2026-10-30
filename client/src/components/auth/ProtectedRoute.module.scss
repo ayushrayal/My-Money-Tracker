@@ -3,6 +3,7 @@
 
 .loadingContainer {
   min-height: 100vh;
+  min-height: 100dvh;
   @include flex-center;
   flex-direction: column;
   gap: $space-md;
@@ -13,8 +14,8 @@
 .spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(16, 185, 129, 0.2);
-  border-top-color: $color-primary-500;
+  border: 3px solid rgba(8, 127, 91, 0.15);
+  border-top-color: $color-primary-green;
   border-radius: $radius-full;
   animation: spin 800ms linear infinite;
 }
@@ -28,5 +29,5 @@
 .loadingText {
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
+  color: $color-text-muted;
 }
-

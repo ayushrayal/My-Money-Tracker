@@ -1,0 +1,246 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.selectContainer {
+  position: relative;
+  width: 100%;
+  font-family: $font-family-base;
+
+  &.sm {
+    .trigger {
+      min-height: 38px;
+      padding: 0 $space-sm;
+      font-size: $font-size-xs;
+      border-radius: $radius-md;
+    }
+  }
+
+  &.md {
+    .trigger {
+      min-height: 44px;
+      padding: 0 $space-md;
+      font-size: $font-size-sm;
+      border-radius: $radius-lg;
+    }
+  }
+}
+
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xs;
+  background-color: $color-surface-card;
+  border: 1px solid $color-border;
+  color: $color-text-main;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color $transition-fast, box-shadow $transition-fast, background-color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover:not(.disabled) {
+    border-color: $color-border-hover;
+    background-color: #FAFAFA;
+  }
+
+  &.open {
+    border-color: $color-primary-green;
+    box-shadow: 0 0 0 3px rgba(8, 127, 91, 0.15);
+  }
+
+  &.hasError {
+    border-color: $color-expense;
+
+    &.open {
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+    }
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: $color-surface-muted;
+  }
+}
+
+.selectedContent {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.leadingIcon {
+  color: $color-primary-green;
+  flex-shrink: 0;
+}
+
+.labelText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: $font-weight-medium;
+  color: $color-text-main;
+}
+
+.placeholderText {
+  color: $color-text-subtle;
+  font-weight: $font-weight-normal;
+}
+
+.secondaryBadge {
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  background-color: $color-surface-hover;
+  color: $color-text-muted;
+  border-radius: $radius-full;
+  text-transform: capitalize;
+  flex-shrink: 0;
+}
+
+.chevron {
+  color: $color-text-muted;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform $transition-fast ease-in-out;
+
+  &.rotated {
+    transform: rotate(180deg);
+  }
+}
+
+.menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  max-height: 260px;
+  overflow-y: auto;
+  background-color: $color-surface-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+  padding: $space-2xs;
+  list-style: none;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  &.downward {
+    top: calc(100% + 4px);
+    animation: fadeInDown 0.15s ease-out;
+  }
+
+  &.upward {
+    bottom: calc(100% + 4px);
+    animation: fadeInUp 0.15s ease-out;
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xs;
+  padding: $space-xs $space-sm;
+  min-height: 42px;
+  border-radius: $radius-md;
+  color: $color-text-main;
+  font-size: $font-size-sm;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color $transition-fast, color $transition-fast;
+
+  @include respond-below('mobile') {
+    min-height: 44px;
+    padding: $space-sm;
+  }
+
+  &.highlighted {
+    background-color: $color-surface-hover;
+  }
+
+  &.selected {
+    background-color: $color-soft-green;
+    color: $color-primary-green;
+    font-weight: $font-weight-semibold;
+  }
+
+  &.disabledOption {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.optionContent {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.optionIcon {
+  color: $color-primary-green;
+  flex-shrink: 0;
+}
+
+.optionLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.optionSecondary {
+  font-size: 0.725rem;
+  color: $color-text-muted;
+  background-color: rgba(0, 0, 0, 0.04);
+  padding: 1px 6px;
+  border-radius: $radius-sm;
+  text-transform: capitalize;
+  margin-left: $space-2xs;
+}
+
+.checkIcon {
+  color: $color-primary-green;
+  flex-shrink: 0;
+}
+
+.emptyState {
+  padding: $space-md;
+  text-align: center;
+  color: $color-text-muted;
+  font-size: $font-size-xs;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

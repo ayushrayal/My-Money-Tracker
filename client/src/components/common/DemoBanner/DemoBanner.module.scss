@@ -2,7 +2,7 @@
 @use '../../../styles/mixins' as *;
 
 .demoBanner {
-  background: linear-gradient(90deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.08) 100%);
+  background-color: $color-demo-bg;
   border: 1px solid $color-demo-border;
   border-radius: $radius-lg;
   padding: $space-sm $space-md;
@@ -50,11 +50,6 @@
 
 .description {
   font-size: $font-size-xs;
-  color: $color-text-muted;
+  color: #713f12;
   line-height: 1.4;
 }
-
-.actions {
-  flex-shrink: 0;
-}
-

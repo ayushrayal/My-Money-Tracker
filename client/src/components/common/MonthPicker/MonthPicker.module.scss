@@ -1,0 +1,285 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.pickerContainer {
+  position: relative;
+  width: 100%;
+  font-family: $font-family-base;
+
+  &.sm {
+    .trigger {
+      min-height: 38px;
+      padding: 0 $space-sm;
+      font-size: $font-size-xs;
+      border-radius: $radius-md;
+    }
+  }
+
+  &.md {
+    .trigger {
+      min-height: 44px;
+      padding: 0 $space-md;
+      font-size: $font-size-sm;
+      border-radius: $radius-lg;
+    }
+  }
+}
+
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xs;
+  background-color: $color-surface-card;
+  border: 1px solid $color-border;
+  color: $color-text-main;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color $transition-fast, box-shadow $transition-fast, background-color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover:not(.disabled) {
+    border-color: $color-border-hover;
+    background-color: #FAFAFA;
+  }
+
+  &.open {
+    border-color: $color-primary-green;
+    box-shadow: 0 0 0 3px rgba(8, 127, 91, 0.15);
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: $color-surface-muted;
+  }
+}
+
+.triggerContent {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.calendarIcon {
+  color: $color-primary-green;
+  flex-shrink: 0;
+}
+
+.labelText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: $font-weight-medium;
+  color: $color-text-main;
+}
+
+.placeholderText {
+  color: $color-text-subtle;
+  font-weight: $font-weight-normal;
+}
+
+.triggerIcons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.clearBtn {
+  color: $color-text-muted;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border-radius: $radius-full;
+  cursor: pointer;
+  transition: color $transition-fast, background-color $transition-fast;
+
+  &:hover {
+    color: $color-text-main;
+    background-color: $color-surface-hover;
+  }
+
+  @include focus-ring;
+}
+
+.chevron {
+  color: $color-text-muted;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform $transition-fast ease-in-out;
+
+  &.rotated {
+    transform: rotate(180deg);
+  }
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 4px);
+  z-index: 50;
+  width: 280px;
+  max-width: calc(100vw - 32px);
+  background-color: $color-surface-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-lg;
+  padding: $space-sm;
+  animation: popoverFadeIn 0.15s ease-out;
+
+  &.alignLeft {
+    left: 0;
+    right: auto;
+  }
+
+  &.alignRight {
+    right: 0;
+    left: auto;
+  }
+
+  // Align right on narrow containers or viewports
+  @media (max-width: 480px) {
+    right: 0;
+    left: auto;
+  }
+}
+
+.yearNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $space-xs;
+  padding-bottom: $space-2xs;
+  border-bottom: 1px solid $color-border-subtle;
+}
+
+.yearNavBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-md;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: $color-text-muted;
+  cursor: pointer;
+  @include flex-center;
+  transition: background-color $transition-fast, color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    background-color: $color-surface-hover;
+    color: $color-text-main;
+  }
+}
+
+.yearTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-heavy;
+  color: $color-text-main;
+  letter-spacing: -0.01em;
+}
+
+.monthsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: $space-xs;
+}
+
+.monthBtn {
+  min-height: 38px;
+  padding: $space-2xs;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-text-main;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-fast ease-in-out;
+
+  @include focus-ring;
+
+  &:hover:not(.selected) {
+    background-color: $color-surface-hover;
+    color: $color-dark-green;
+  }
+
+  &.currentMonth {
+    border-color: $color-primary-green;
+    color: $color-primary-green;
+    font-weight: $font-weight-semibold;
+    background-color: rgba(8, 127, 91, 0.04);
+  }
+
+  &.selected {
+    background-color: $color-primary-green;
+    color: #ffffff;
+    font-weight: $font-weight-bold;
+    box-shadow: 0 2px 6px rgba(8, 127, 91, 0.3);
+  }
+}
+
+.popoverFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: $space-2xs;
+  border-top: 1px solid $color-border-subtle;
+}
+
+.quickActionBtn {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $color-primary-green;
+  background-color: $color-soft-green;
+  border: none;
+  border-radius: $radius-md;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background-color $transition-fast, color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    background-color: #d7ede0;
+    color: $color-dark-green;
+  }
+}
+
+.clearActionBtn {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-text-muted;
+  background-color: transparent;
+  border: none;
+  border-radius: $radius-md;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    color: $color-expense;
+  }
+}
+
+@keyframes popoverFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,112 +1,118 @@
+import { Link } from 'react-router-dom';
 import {
   Briefcase,
-  ShoppingCart,
-  Utensils,
-  HandCoins,
-  Zap,
+  Tag,
+  ArrowLeftRight,
+  Plus,
+  Receipt,
 } from 'lucide-react';
-import { Badge } from '../../common/Badge/Badge';
+import { Button } from '../../common/Button/Button';
 import styles from './RecentTransactions.module.scss';
 
-const MOCK_TRANSACTIONS = [
-  {
-    id: 'tx-1',
-    title: 'Monthly Salary Deposit',
-    category: 'salary',
-    account: 'Bank Account',
-    date: 'Today, 09:30 AM',
-    amount: 4500.0,
-    type: 'income',
-    icon: Briefcase,
-  },
-  {
-    id: 'tx-2',
-    title: 'Organic Food Market',
-    category: 'groceries',
-    account: 'Debit Card',
-    date: 'Yesterday, 05:45 PM',
-    amount: -86.5,
-    type: 'expense',
-    icon: ShoppingCart,
-  },
-  {
-    id: 'tx-3',
-    title: 'Weekend Bistro Dinner',
-    category: 'dining',
-    account: 'UPI / Cash',
-    date: 'Oct 26, 08:15 PM',
-    amount: -45.0,
-    type: 'expense',
-    icon: Utensils,
-  },
-  {
-    id: 'tx-4',
-    title: 'Alex Friend Loan Repayment',
-    category: 'loan',
-    account: 'Direct Transfer',
-    date: 'Oct 24, 02:00 PM',
-    amount: 250.0,
-    type: 'income',
-    icon: HandCoins,
-  },
-  {
-    id: 'tx-5',
-    title: 'High-speed Fiber Internet',
-    category: 'utilities',
-    account: 'Auto-Debit',
-    date: 'Oct 22, 11:10 AM',
-    amount: -60.0,
-    type: 'expense',
-    icon: Zap,
-  },
-];
+export function RecentTransactions({ transactions = [], isLoading, onAddExpense }) {
+  const formatDate = (isoString) => {
+    if (!isoString) return '';
+    const match = typeof isoString === 'string' && isoString.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (match) {
+      const year = parseInt(match[1], 10);
+      const monthIndex = parseInt(match[2], 10) - 1;
+      const day = parseInt(match[3], 10);
+      return new Date(year, monthIndex, day).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      });
+    }
+    return new Date(isoString).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  };
 
-export function RecentTransactions() {
   return (
-    <section className={styles.card} aria-label="Recent Transactions Preview">
+    <section className={styles.card} aria-label="Recent Transactions">
       <div className={styles.header}>
         <h2 className={styles.title}>Recent Transactions</h2>
-        <Badge variant="neutral">Demo Preview</Badge>
+        <Link to="/transactions" className={styles.viewAllLink}>
+          View All →
+        </Link>
       </div>
 
-      <div className={styles.transactionList}>
-        {MOCK_TRANSACTIONS.map((tx) => {
-          const Icon = tx.icon;
-          const isIncome = tx.type === 'income';
-          const formattedAmount = `${isIncome ? '+' : '-'}$${Math.abs(tx.amount).toFixed(2)}`;
+      {isLoading ? (
+        <div style={{ padding: '2rem 0', textAlign: 'center', color: '#6B7280', fontSize: '0.875rem' }}>
+          Loading recent transactions...
+        </div>
+      ) : transactions.length === 0 ? (
+        <div className={styles.emptyState}>
+          <Receipt size={32} color="#9CA3AF" aria-hidden="true" />
+          <p style={{ fontWeight: 500, color: '#374151' }}>No transactions recorded yet.</p>
+          <span style={{ fontSize: '0.75rem', color: '#6B7280', maxWidth: '280px' }}>
+            Your recent incomes, expenses, and transfers will appear here in chronological order.
+          </span>
+          <Button
+            variant="soft"
+            size="sm"
+            onClick={onAddExpense}
+          >
+            <Plus size={14} />
+            <span>Add First Expense</span>
+          </Button>
+        </div>
+      ) : (
+        <div className={styles.transactionList}>
+          {transactions.slice(0, 5).map((tx) => {
+            const isIncome = tx.type === 'income';
+            const isTransfer = tx.type === 'transfer';
+            const sign = isTransfer ? '⇄ ₹' : isIncome ? '+₹' : '-₹';
+            const formattedAmount = `${sign}${Number(tx.amount).toFixed(2)}`;
 
-          return (
-            <div key={tx.id} className={styles.transactionItem}>
-              <div className={styles.leftCol}>
-                <div
-                  className={`${styles.iconCircle} ${styles[tx.category] || ''}`}
-                  aria-hidden="true"
-                >
-                  <Icon size={18} />
-                </div>
-                <div className={styles.details}>
-                  <span className={styles.titleText}>{tx.title}</span>
-                  <div className={styles.subMeta}>
-                    <span>{tx.date}</span>
-                    <span>•</span>
-                    <span className={styles.accountBadge}>{tx.account}</span>
+            return (
+              <div key={tx.id || tx._id} className={styles.transactionItem}>
+                <div className={styles.leftCol}>
+                  <div
+                    className={`${styles.iconCircle} ${
+                      isIncome ? styles.income : isTransfer ? styles.transfer : styles.expense
+                    }`}
+                    aria-hidden="true"
+                  >
+                    {isTransfer ? (
+                      <ArrowLeftRight size={18} />
+                    ) : isIncome ? (
+                      <Briefcase size={18} />
+                    ) : (
+                      <Tag size={18} />
+                    )}
+                  </div>
+                  <div className={styles.details}>
+                    <span className={styles.titleText}>{tx.description}</span>
+                    <div className={styles.subMeta}>
+                      <span>{formatDate(tx.date)}</span>
+                      <span>•</span>
+                      <span className={styles.accountBadge}>
+                        {tx.paymentMethod ? tx.paymentMethod.toUpperCase() : 'UPI'}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className={styles.rightCol}>
-                <span
-                  className={`${styles.amount} ${isIncome ? styles.income : styles.expense}`}
-                >
-                  {formattedAmount}
-                </span>
-                <span className={styles.statusText}>{isIncome ? 'Received' : 'Paid'}</span>
+                <div className={styles.rightCol}>
+                  <span
+                    className={`${styles.amount} ${
+                      isIncome ? styles.income : isTransfer ? styles.transfer : styles.expense
+                    }`}
+                  >
+                    {formattedAmount}
+                  </span>
+                  <span className={styles.statusText}>
+                    {isTransfer ? 'Transfer' : isIncome ? 'Income' : 'Expense'}
+                  </span>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 }
-

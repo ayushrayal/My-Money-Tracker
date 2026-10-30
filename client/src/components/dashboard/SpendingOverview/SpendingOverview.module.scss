@@ -27,7 +27,7 @@
 
 .title {
   font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
+  font-weight: $font-weight-bold;
   color: $color-text-main;
 }
 
@@ -57,12 +57,13 @@
 
 .limitAmount {
   font-family: $font-mono;
+  color: $color-text-muted;
 }
 
 .progressTrack {
   width: 100%;
-  height: 10px;
-  background-color: rgba(255, 255, 255, 0.08);
+  height: 8px;
+  background-color: #F3F4F1;
   border-radius: $radius-full;
   overflow: hidden;
   position: relative;
@@ -71,8 +72,12 @@
 .progressBar {
   height: 100%;
   border-radius: $radius-full;
-  background: linear-gradient(90deg, $color-primary-500 0%, $color-warning 100%);
+  background: linear-gradient(90deg, $color-primary-green 0%, $color-dark-green 100%);
   transition: width $transition-base;
+
+  &.danger {
+    background: linear-gradient(90deg, #F97316 0%, $color-expense 100%);
+  }
 }
 
 .statsGrid {
@@ -91,18 +96,20 @@
 .statItem {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .statLabel {
-  font-size: $font-size-xs;
-  color: $color-text-subtle;
+  font-size: 0.6875rem;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: $font-weight-medium;
 }
 
 .statValue {
   font-family: $font-mono;
   font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
+  font-weight: $font-weight-bold;
   color: $color-text-main;
 }
-

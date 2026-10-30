@@ -11,6 +11,7 @@ if (process.env.USE_CUSTOM_DNS === 'true' || (process.env.NODE_ENV !== 'producti
 }
 
 import { connectDB, disconnectDB, sanitizeMongoUri } from './config/database.js';
+import { ensureDefaultCategories } from './services/category.service.js';
 
 let server = null;
 
@@ -19,6 +20,7 @@ async function startServer() {
     // Attempt database connection
     if (env.MONGODB_URI) {
       await connectDB();
+      await ensureDefaultCategories();
     } else {
       console.warn('[Server] Notice: MONGODB_URI is not set. Database operations will be unavailable until configured.');
     }

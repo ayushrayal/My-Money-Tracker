@@ -1,0 +1,458 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.budgetsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  width: 100%;
+}
+
+.topBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-md;
+
+  @include respond-to('max-sm') {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.headerText {
+  .title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-main;
+    margin: 0;
+  }
+
+  .subtitle {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    margin-top: $space-2xs;
+  }
+}
+
+.topActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-sm;
+
+  @include respond-to('max-sm') {
+    flex-direction: column;
+    align-items: stretch;
+
+    > * {
+      width: 100%;
+    }
+  }
+}
+
+/* Salary Banner */
+.salaryBanner {
+  background-color: $color-surface-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: $space-lg;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-lg;
+  box-shadow: $shadow-sm;
+
+  @include respond-to('max-md') {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .salaryLeft {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-md;
+
+    .salaryIcon {
+      width: 44px;
+      height: 44px;
+      border-radius: $radius-full;
+      background-color: $color-soft-green;
+      color: $color-primary-green;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .salaryInfo {
+      display: flex;
+      flex-direction: column;
+      gap: $space-2xs;
+
+      .salaryHeading {
+        display: flex;
+        align-items: center;
+        gap: $space-xs;
+        flex-wrap: wrap;
+
+        .salaryTitle {
+          font-size: $font-size-base;
+          font-weight: $font-weight-semibold;
+          color: $color-text-main;
+        }
+      }
+
+      .salaryDetail {
+        font-size: $font-size-sm;
+        color: $color-text-muted;
+        line-height: 1.4;
+      }
+    }
+  }
+
+  .salaryActions {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    flex-shrink: 0;
+
+    @include respond-to('max-sm') {
+      flex-direction: column;
+      width: 100%;
+
+      > * {
+        width: 100%;
+      }
+    }
+  }
+}
+
+/* Summary Grid */
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $space-md;
+
+  @include respond-to('max-sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.summaryCard {
+  background-color: $color-surface-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: $space-md $space-lg;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+
+  .cardLabel {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $color-text-muted;
+  }
+
+  .cardValue {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-main;
+    font-family: $font-mono;
+  }
+
+  .cardSubtext {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+}
+
+/* Categories Section */
+.categoriesSection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .sectionTitle {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-text-main;
+  }
+}
+
+.categoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: $space-md;
+
+  @include respond-to('max-sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.categoryCard {
+  background-color: $color-surface-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: $space-md;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  transition: border-color $transition-fast ease;
+
+  &.warningBorder {
+    border-color: rgba(217, 119, 6, 0.4);
+  }
+
+  &.exceededBorder {
+    border-color: rgba(220, 38, 38, 0.4);
+    background-color: #FFFDFD;
+  }
+
+  .cardTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-xs;
+
+    .catNameWrapper {
+      display: flex;
+      align-items: center;
+      gap: $space-xs;
+
+      .catDot {
+        width: 10px;
+        height: 10px;
+        border-radius: $radius-full;
+        flex-shrink: 0;
+      }
+
+      .catName {
+        font-size: $font-size-base;
+        font-weight: $font-weight-semibold;
+        color: $color-text-main;
+      }
+    }
+  }
+
+  .amountsRow {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    font-family: $font-mono;
+
+    .spentAmount {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+      color: $color-text-main;
+    }
+
+    .limitAmount {
+      font-size: $font-size-sm;
+      color: $color-text-muted;
+    }
+  }
+
+  .progressBarTrack {
+    width: 100%;
+    height: 8px;
+    background-color: $color-border-subtle;
+    border-radius: $radius-full;
+    overflow: hidden;
+    position: relative;
+
+    .progressBarFill {
+      height: 100%;
+      border-radius: $radius-full;
+      transition: width 0.3s ease;
+
+      &.normalFill {
+        background-color: $color-primary-green;
+      }
+
+      &.warningFill {
+        background-color: $color-warning;
+      }
+
+      &.exceededFill {
+        background-color: $color-expense;
+      }
+    }
+  }
+
+  .cardBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+
+    .remainingTag {
+      font-weight: $font-weight-semibold;
+      font-family: $font-mono;
+
+      &.positive {
+        color: $color-income;
+      }
+
+      &.negative {
+        color: $color-expense;
+      }
+    }
+  }
+}
+
+/* Empty State */
+.emptyState {
+  background-color: $color-surface-card;
+  border: 1px dashed $color-border;
+  border-radius: $radius-lg;
+  padding: $space-3xl $space-xl;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-md;
+
+  .emptyIcon {
+    width: 56px;
+    height: 56px;
+    border-radius: $radius-full;
+    background-color: $color-soft-green;
+    color: $color-primary-green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .emptyTitle {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-main;
+    margin: 0;
+  }
+
+  .emptyText {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    max-width: 480px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .emptyActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-sm;
+    justify-content: center;
+  }
+}
+
+/* Modal styling helpers */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $space-md;
+}
+
+.modalContent {
+  background-color: $color-surface-card;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-xl;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  padding: $space-xl;
+
+  @include respond-to('max-sm') {
+    padding: $space-md;
+  }
+
+  .modalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .modalTitle {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-bold;
+      color: $color-text-main;
+      margin: 0;
+    }
+
+    .closeBtn {
+      background: none;
+      border: none;
+      color: $color-text-muted;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: $space-xs;
+      border-radius: $radius-md;
+
+      &:hover {
+        background-color: $color-surface-hover;
+        color: $color-text-main;
+      }
+    }
+  }
+
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+
+    label {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-semibold;
+      color: $color-text-main;
+    }
+
+    input, textarea {
+      padding: 0.625rem 0.875rem;
+      border: 1px solid $color-border;
+      border-radius: $radius-md;
+      font-size: $font-size-sm;
+      color: $color-text-main;
+      background-color: $color-surface-card;
+      font-family: inherit;
+
+      &:focus {
+        outline: none;
+        border-color: $color-primary-green;
+        box-shadow: 0 0 0 3px rgba(8, 127, 91, 0.15);
+      }
+    }
+  }
+
+  .modalActions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: $space-sm;
+    margin-top: $space-sm;
+  }
+}
+

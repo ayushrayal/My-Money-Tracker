@@ -4,8 +4,8 @@
 .sidebar {
   display: none;
   width: $sidebar-width;
-  background-color: $color-surface-base;
-  border-right: 1px solid $color-border-subtle;
+  background-color: #ffffff;
+  border-right: 1px solid $color-border;
   height: 100vh;
   position: sticky;
   top: 0;
@@ -29,11 +29,11 @@
 .logoIcon {
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, $color-primary-500, $color-primary-700);
+  background: linear-gradient(135deg, $color-primary-green, $color-dark-green);
   border-radius: $radius-lg;
   @include flex-center;
   color: #ffffff;
-  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 10px rgba(8, 127, 91, 0.25);
 }
 
 .brandText {
@@ -45,12 +45,15 @@
   font-size: $font-size-base;
   font-weight: $font-weight-heavy;
   color: $color-text-main;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .appTagline {
-  font-size: $font-size-xs;
-  color: $color-text-subtle;
+  font-size: 0.6875rem;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: $font-weight-medium;
 }
 
 .nav {
@@ -58,52 +61,60 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: $space-xs;
+  gap: 4px;
 }
 
 .navSectionTitle {
-  font-size: $font-size-xs;
+  font-size: 0.6875rem;
   font-weight: $font-weight-bold;
   color: $color-text-subtle;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   padding: $space-xs $space-sm;
-  margin-bottom: $space-2xs;
+  margin-bottom: 2px;
 }
 
 .navItem {
   display: flex;
   align-items: center;
   gap: $space-md;
-  padding: $space-sm $space-md;
+  padding: $space-xs $space-md;
   border-radius: $radius-lg;
   color: $color-text-muted;
   font-weight: $font-weight-medium;
   font-size: $font-size-sm;
   transition: all $transition-fast;
+  min-height: 44px;
 
   @include focus-ring;
 
   &:hover {
-    background-color: $color-surface-hover;
+    background-color: $color-bg-app;
     color: $color-text-main;
   }
 
   &.active {
-    background-color: rgba(16, 185, 129, 0.14);
-    color: $color-primary-500;
-    font-weight: $font-weight-semibold;
+    background-color: $color-soft-green;
+    color: $color-primary-green;
+    font-weight: $font-weight-bold;
+
+    .navIcon {
+      color: $color-primary-green;
+    }
   }
 }
 
 .navIcon {
   display: flex;
   align-items: center;
+  color: $color-text-subtle;
+  transition: color $transition-fast;
 }
 
 .footer {
   padding: $space-md $space-xl;
   border-top: 1px solid $color-border-subtle;
+  background-color: #ffffff;
 }
 
 .versionBadge {
@@ -111,6 +122,5 @@
   align-items: center;
   justify-content: space-between;
   font-size: $font-size-xs;
-  color: $color-text-subtle;
+  color: $color-text-muted;
 }
-

@@ -17,8 +17,20 @@
 
 .title {
   font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
+  font-weight: $font-weight-bold;
   color: $color-text-main;
+}
+
+.viewAllLink {
+  font-size: $font-size-xs;
+  color: $color-primary-green;
+  font-weight: $font-weight-bold;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-dark-green;
+    text-decoration: underline;
+  }
 }
 
 .transactionList {
@@ -52,35 +64,25 @@
 }
 
 .iconCircle {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: $radius-lg;
   @include flex-center;
   flex-shrink: 0;
 
-  &.salary {
+  &.income {
     background-color: $color-income-bg;
     color: $color-income;
   }
 
-  &.groceries {
-    background-color: rgba(56, 189, 248, 0.14);
-    color: #38bdf8;
+  &.expense {
+    background-color: $color-expense-bg;
+    color: $color-expense;
   }
 
-  &.dining {
-    background-color: rgba(245, 158, 11, 0.14);
-    color: #f59e0b;
-  }
-
-  &.loan {
-    background-color: rgba(168, 85, 247, 0.14);
-    color: #a855f7;
-  }
-
-  &.utilities {
-    background-color: rgba(244, 63, 94, 0.14);
-    color: #f43f5e;
+  &.transfer {
+    background-color: $color-info-bg;
+    color: $color-info;
   }
 }
 
@@ -93,7 +95,7 @@
 
 .titleText {
   font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-semibold;
   color: $color-text-main;
   @include text-truncate;
 }
@@ -103,13 +105,17 @@
   align-items: center;
   gap: $space-xs;
   font-size: $font-size-xs;
-  color: $color-text-subtle;
+  color: $color-text-muted;
 }
 
 .accountBadge {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #F3F4F1;
   padding: 1px 6px;
   border-radius: $radius-xs;
+  font-size: 0.6875rem;
+  font-weight: $font-weight-medium;
+  color: $color-text-main;
+  text-transform: uppercase;
 }
 
 .rightCol {
@@ -132,10 +138,23 @@
   &.expense {
     color: $color-text-main;
   }
+
+  &.transfer {
+    color: #0284C7;
+  }
 }
 
 .statusText {
-  font-size: $font-size-xs;
+  font-size: 0.6875rem;
   color: $color-text-subtle;
 }
 
+.emptyState {
+  padding: $space-2xl $space-md;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-sm;
+  color: $color-text-muted;
+}

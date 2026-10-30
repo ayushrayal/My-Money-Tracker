@@ -4,7 +4,7 @@
 .card {
   @include card-surface;
   padding: $space-lg;
-  border-left: 3px solid $color-primary-500;
+  border-left: 3px solid $color-primary-green;
 
   @include respond-below('mobile') {
     padding: $space-md;
@@ -14,7 +14,7 @@
 .header {
   @include flex-between;
   gap: $space-sm;
-  margin-bottom: $space-sm;
+  margin-bottom: $space-xs;
 }
 
 .titleGroup {
@@ -25,7 +25,7 @@
 
 .title {
   font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
+  font-weight: $font-weight-bold;
   color: $color-text-main;
 }
 
@@ -35,13 +35,13 @@
   border-radius: $radius-full;
 
   &.online {
-    background-color: $color-primary-500;
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+    background-color: $color-primary-green;
+    box-shadow: 0 0 6px rgba(8, 127, 91, 0.4);
   }
 
   &.offline {
     background-color: $color-expense;
-    box-shadow: 0 0 8px rgba(244, 63, 94, 0.6);
+    box-shadow: 0 0 6px rgba(220, 38, 38, 0.4);
   }
 
   &.loading {
@@ -52,22 +52,22 @@
 .description {
   font-size: $font-size-xs;
   color: $color-text-muted;
-  margin-bottom: $space-md;
+  margin-bottom: $space-sm;
   line-height: 1.4;
 }
 
 .detailsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: $space-sm;
-  padding: $space-sm;
-  background-color: rgba(0, 0, 0, 0.2);
+  gap: $space-xs;
+  padding: $space-xs $space-sm;
+  background-color: #F7F8F5;
+  border: 1px solid $color-border-subtle;
   border-radius: $radius-md;
-  margin-bottom: $space-md;
+  margin-bottom: $space-sm;
 
   @include respond-below('mobile') {
     grid-template-columns: 1fr;
-    gap: $space-xs;
   }
 }
 
@@ -79,23 +79,23 @@
 }
 
 .detailKey {
-  color: $color-text-subtle;
+  color: $color-text-muted;
 }
 
 .detailVal {
   font-family: $font-mono;
   color: $color-text-main;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-bold;
 }
 
 .errorBox {
   padding: $space-xs $space-sm;
   background-color: $color-expense-bg;
-  border: 1px solid rgba(244, 63, 94, 0.3);
+  border: 1px solid rgba(220, 38, 38, 0.2);
   border-radius: $radius-md;
   color: $color-expense;
   font-size: $font-size-xs;
-  margin-bottom: $space-md;
+  margin-bottom: $space-sm;
 }
 
 .actions {
@@ -103,4 +103,3 @@
   align-items: center;
   justify-content: flex-end;
 }
-

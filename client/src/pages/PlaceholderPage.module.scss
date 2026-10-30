@@ -11,16 +11,23 @@
   gap: $space-md;
   max-width: 600px;
   margin: $space-2xl auto;
+  box-shadow: $shadow-xs;
 }
 
 .iconCircle {
   width: 64px;
   height: 64px;
   border-radius: $radius-full;
-  background-color: rgba(16, 185, 129, 0.12);
-  color: $color-primary-500;
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  background-color: $color-soft-green;
+  color: $color-primary-green;
+  border: 1px solid rgba(8, 127, 91, 0.2);
   @include flex-center;
+
+  &.errorCircle {
+    background-color: $color-expense-bg;
+    color: $color-expense;
+    border-color: rgba(220, 38, 38, 0.2);
+  }
 }
 
 .title {
@@ -38,4 +45,3 @@
 .actions {
   margin-top: $space-sm;
 }
-

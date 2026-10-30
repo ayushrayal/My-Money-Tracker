@@ -18,8 +18,8 @@
   }
 
   &.highlight {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(24, 34, 52, 1) 100%);
-    border-color: rgba(16, 185, 129, 0.25);
+    background: linear-gradient(135deg, rgba(8, 127, 91, 0.06) 0%, #ffffff 100%);
+    border-color: rgba(8, 127, 91, 0.25);
   }
 }
 
@@ -32,12 +32,12 @@
 .titleGroup {
   display: flex;
   flex-direction: column;
-  gap: $space-2xs;
+  gap: 2px;
 }
 
 .title {
   font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
+  font-weight: $font-weight-bold;
   color: $color-text-main;
 }
 
@@ -57,4 +57,3 @@
   font-size: $font-size-xs;
   color: $color-text-subtle;
 }
-

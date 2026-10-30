@@ -1,0 +1,373 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  position: relative;
+}
+
+.topBar {
+  @include flex-between;
+  gap: $space-sm;
+  flex-wrap: wrap;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pageTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-heavy;
+  color: $color-text-main;
+  letter-spacing: -0.02em;
+}
+
+.pageSubtitle {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+}
+
+.filterCard {
+  @include card-surface;
+  padding: $space-md;
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  position: relative;
+  z-index: 20;
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  flex-wrap: wrap;
+}
+
+.searchWrapper {
+  flex: 1;
+  min-width: 220px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: $space-sm;
+  color: $color-text-subtle;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: $space-xs $space-sm $space-xs 36px;
+  background-color: #ffffff;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  color: $color-text-main;
+  font-size: $font-size-sm;
+  min-height: 44px;
+
+  @include focus-ring;
+
+  &::placeholder {
+    color: $color-text-subtle;
+  }
+}
+
+.clearSearchBtn {
+  position: absolute;
+  right: $space-xs;
+  color: $color-text-muted;
+  padding: 6px;
+  border-radius: $radius-full;
+  @include flex-center;
+  min-height: 32px;
+  min-width: 32px;
+  transition: all $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    color: $color-text-main;
+    background-color: #F3F4F1;
+  }
+}
+
+.filterControlNarrow {
+  min-width: 140px;
+  flex: 0 1 auto;
+
+  @include respond-below('mobile') {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+}
+
+.filterControlMedium {
+  min-width: 180px;
+  flex: 0 1 auto;
+
+  @include respond-below('mobile') {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+}
+
+.filterControlMonth {
+  min-width: 175px;
+  flex: 0 1 auto;
+
+  @include respond-below('mobile') {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+}
+
+.tableCard {
+  @include card-surface;
+  overflow: hidden;
+}
+
+.tableHeader {
+  @include flex-between;
+  padding: $space-md $space-lg;
+  border-bottom: 1px solid $color-border-subtle;
+  background-color: #FAFAFA;
+}
+
+.tableTitle {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: $font-size-sm;
+
+  th {
+    padding: $space-sm $space-lg;
+    background-color: #FAFAFA;
+    color: $color-text-muted;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid $color-border-subtle;
+  }
+
+  td {
+    padding: $space-md $space-lg;
+    border-bottom: 1px solid $color-border-subtle;
+    color: $color-text-main;
+    vertical-align: middle;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tr:hover td {
+    background-color: #F9FAFB;
+  }
+}
+
+.txDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.txDescription {
+  font-weight: $font-weight-semibold;
+  color: $color-text-main;
+}
+
+.txNotes {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+}
+
+.amount {
+  font-family: $font-mono;
+  font-weight: $font-weight-bold;
+
+  &.income {
+    color: $color-income;
+  }
+
+  &.expense {
+    color: $color-text-main;
+  }
+
+  &.transfer {
+    color: #0284C7;
+  }
+}
+
+.actionCell {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.actionBtn {
+  color: $color-text-muted;
+  padding: 8px;
+  border-radius: $radius-md;
+  @include flex-center;
+  transition: all $transition-fast;
+  min-height: 40px;
+  min-width: 40px;
+
+  @include focus-ring;
+
+  &:hover {
+    color: $color-text-main;
+    background-color: #F3F4F1;
+  }
+
+  &.delete:hover {
+    color: $color-expense;
+    background-color: $color-expense-bg;
+  }
+}
+
+.pagination {
+  @include flex-between;
+  padding: $space-md $space-lg;
+  border-top: 1px solid $color-border-subtle;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  background-color: #FAFAFA;
+}
+
+.emptyState {
+  padding: $space-3xl $space-lg;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-sm;
+  color: $color-text-muted;
+}
+
+.emptyIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: $radius-full;
+  background-color: #F3F4F1;
+  color: $color-text-subtle;
+  @include flex-center;
+  margin-bottom: $space-xs;
+}
+
+.loadingWrapper {
+  padding: $space-3xl;
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-md;
+  color: $color-text-muted;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(8, 127, 91, 0.2);
+  border-top-color: $color-primary-green;
+  border-radius: $radius-full;
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mobileCardList {
+  display: none;
+  flex-direction: column;
+  gap: $space-sm;
+
+  @include respond-below('tablet') {
+    display: flex;
+  }
+}
+
+.desktopTableContainer {
+  @include respond-below('tablet') {
+    display: none;
+  }
+}
+
+.mobileTxCard {
+  @include card-surface;
+  padding: $space-md;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  box-shadow: $shadow-xs;
+}
+
+.mobileCardHeader {
+  @include flex-between;
+  gap: $space-sm;
+}
+
+.mobileCardFooter {
+  @include flex-between;
+  margin-top: $space-xs;
+  padding-top: $space-xs;
+  border-top: 1px solid $color-border-subtle;
+  font-size: $font-size-xs;
+  color: $color-text-subtle;
+}
+
+// Mobile Floating Action Button (FAB)
+.mobileFab {
+  display: none;
+  position: fixed;
+  bottom: calc(#{$bottom-nav-height} + 16px);
+  right: 16px;
+  width: 54px;
+  height: 54px;
+  border-radius: $radius-full;
+  background-color: $color-primary-green;
+  color: #ffffff;
+  @include flex-center;
+  box-shadow: 0 4px 14px rgba(8, 127, 91, 0.4);
+  z-index: 45;
+  transition: transform $transition-fast, background-color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    background-color: $color-dark-green;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  @include respond-below('tablet') {
+    display: flex;
+  }
+}

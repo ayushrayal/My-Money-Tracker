@@ -1,0 +1,466 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.loansContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  width: 100%;
+}
+
+.topBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-md;
+
+  @include respond-to('max-sm') {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.headerText {
+  .title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-main;
+    margin: 0;
+  }
+
+  .subtitle {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    margin-top: $space-2xs;
+  }
+}
+
+.topActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-sm;
+
+  @include respond-to('max-sm') {
+    flex-direction: column;
+    align-items: stretch;
+
+    > * {
+      width: 100%;
+    }
+  }
+}
+
+/* Strategy Banner */
+.strategyBanner {
+  background-color: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  border-radius: $radius-lg;
+  padding: $space-md $space-lg;
+  display: flex;
+  align-items: flex-start;
+  gap: $space-md;
+
+  .bannerIcon {
+    width: 36px;
+    height: 36px;
+    border-radius: $radius-full;
+    background-color: #E2E8F0;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .bannerContent {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2xs;
+
+    .bannerTitle {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
+      color: #0F172A;
+    }
+
+    .bannerText {
+      font-size: $font-size-xs;
+      color: #475569;
+      line-height: 1.5;
+      margin: 0;
+    }
+  }
+}
+
+/* KPI Summary */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: $space-md;
+
+  @include respond-to('max-sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kpiCard {
+  background-color: $color-surface-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: $space-md;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+
+  .kpiLabel {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $color-text-muted;
+  }
+
+  .kpiValue {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-main;
+    font-family: $font-mono;
+  }
+
+  .kpiSub {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+}
+
+/* Loans Grid */
+.loansGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: $space-md;
+
+  @include respond-to('max-sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.loanCard {
+  background-color: $color-surface-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: $space-lg;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  transition: transform $transition-fast ease, box-shadow $transition-fast ease;
+
+  &.paidLoan {
+    background-color: #FAFCF9;
+    border-color: rgba(8, 127, 91, 0.3);
+  }
+
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .lenderName {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+      color: $color-text-main;
+    }
+  }
+
+  .balanceBox {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2xs;
+
+    .balanceLabel {
+      font-size: $font-size-xs;
+      color: $color-text-muted;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .balanceRow {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-family: $font-mono;
+
+      .currentBalance {
+        font-size: 1.5rem;
+        font-weight: $font-weight-bold;
+        color: $color-text-main;
+
+        &.zeroBalance {
+          color: $color-income;
+        }
+      }
+
+      .principal {
+        font-size: $font-size-sm;
+        color: $color-text-muted;
+      }
+    }
+  }
+
+  .progressBarTrack {
+    width: 100%;
+    height: 8px;
+    background-color: $color-border-subtle;
+    border-radius: $radius-full;
+    overflow: hidden;
+
+    .progressBarFill {
+      height: 100%;
+      background-color: $color-primary-green;
+      border-radius: $radius-full;
+      transition: width 0.3s ease;
+    }
+  }
+
+  .loanDetails {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+
+    .detailRow {
+      display: flex;
+      justify-content: space-between;
+
+      .detailVal {
+        font-weight: $font-weight-semibold;
+        color: $color-text-main;
+      }
+    }
+
+    .notesText {
+      margin-top: $space-2xs;
+      font-style: italic;
+      color: $color-text-muted;
+      line-height: 1.4;
+    }
+  }
+
+  .cardActions {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    margin-top: auto;
+    padding-top: $space-sm;
+    border-top: 1px solid $color-border-subtle;
+
+    > * {
+      flex: 1;
+    }
+  }
+}
+
+/* Empty State */
+.emptyState {
+  background-color: $color-surface-card;
+  border: 1px dashed $color-border;
+  border-radius: $radius-lg;
+  padding: $space-3xl $space-xl;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-md;
+
+  .emptyIcon {
+    width: 56px;
+    height: 56px;
+    border-radius: $radius-full;
+    background-color: $color-soft-green;
+    color: $color-primary-green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .emptyTitle {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-main;
+    margin: 0;
+  }
+
+  .emptyText {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    max-width: 480px;
+    line-height: 1.5;
+    margin: 0;
+  }
+}
+
+/* Modal styles */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $space-md;
+}
+
+.modalContent {
+  background-color: $color-surface-card;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-xl;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  padding: $space-xl;
+
+  @include respond-to('max-sm') {
+    padding: $space-md;
+  }
+
+  .modalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .modalTitle {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-bold;
+      color: $color-text-main;
+      margin: 0;
+    }
+
+    .closeBtn {
+      background: none;
+      border: none;
+      color: $color-text-muted;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: $space-xs;
+      border-radius: $radius-md;
+
+      &:hover {
+        background-color: $color-surface-hover;
+        color: $color-text-main;
+      }
+    }
+  }
+
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+
+    label {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-semibold;
+      color: $color-text-main;
+    }
+
+    input, textarea {
+      padding: 0.625rem 0.875rem;
+      border: 1px solid $color-border;
+      border-radius: $radius-md;
+      font-size: $font-size-sm;
+      color: $color-text-main;
+      background-color: $color-surface-card;
+      font-family: inherit;
+
+      &:focus {
+        outline: none;
+        border-color: $color-primary-green;
+        box-shadow: 0 0 0 3px rgba(8, 127, 91, 0.15);
+      }
+    }
+  }
+
+  .checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+    font-size: $font-size-sm;
+    color: $color-text-main;
+    cursor: pointer;
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: $color-primary-green;
+      cursor: pointer;
+    }
+  }
+
+  .modalActions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: $space-sm;
+    margin-top: $space-sm;
+  }
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+
+  .historyItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $space-sm $space-md;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    background-color: $color-surface-muted;
+
+    .historyLeft {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .historyAmount {
+        font-weight: $font-weight-bold;
+        font-family: $font-mono;
+        color: $color-text-main;
+      }
+
+      .historyDate {
+        font-size: $font-size-xs;
+        color: $color-text-muted;
+      }
+    }
+
+    .reverseBtn {
+      background: none;
+      border: 1px solid $color-border;
+      padding: 0.25rem 0.5rem;
+      border-radius: $radius-sm;
+      font-size: $font-size-xs;
+      color: $color-expense;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color-expense-bg;
+        border-color: rgba(220, 38, 38, 0.3);
+      }
+    }
+  }
+}
+

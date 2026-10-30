@@ -6,7 +6,7 @@
   min-height: 100dvh;
   @include flex-center;
   padding: $space-md;
-  background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 60%), $color-bg-app;
+  background: radial-gradient(circle at 50% 0%, rgba(8, 127, 91, 0.05) 0%, transparent 60%), $color-bg-app;
 
   @include respond-to('tablet') {
     padding: $space-2xl;
@@ -17,14 +17,14 @@
   @include card-surface;
   width: 100%;
   max-width: 440px;
-  padding: $space-xl;
+  padding: $space-2xl $space-xl;
   display: flex;
   flex-direction: column;
   gap: $space-lg;
-  box-shadow: $shadow-lg;
+  box-shadow: $shadow-md;
 
   @include respond-below('mobile') {
-    padding: $space-lg;
+    padding: $space-lg $space-md;
   }
 }
 
@@ -33,23 +33,25 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: $space-sm;
+  gap: $space-xs;
 }
 
 .logoIcon {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, $color-primary-500, $color-primary-700);
+  background: linear-gradient(135deg, $color-primary-green, $color-dark-green);
   border-radius: $radius-xl;
   @include flex-center;
   color: #ffffff;
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 14px rgba(8, 127, 91, 0.25);
+  margin-bottom: $space-2xs;
 }
 
 .title {
   font-size: $font-size-xl;
   font-weight: $font-weight-heavy;
   color: $color-text-main;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
@@ -84,11 +86,12 @@
 .input {
   width: 100%;
   padding: $space-xs $space-md;
-  background-color: $color-surface-base;
-  border: 1px solid $color-border-subtle;
-  border-radius: $radius-md;
+  background-color: #ffffff;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
   color: $color-text-main;
   font-size: $font-size-sm;
+  min-height: 44px;
   transition: border-color $transition-fast, box-shadow $transition-fast;
 
   @include focus-ring;
@@ -102,17 +105,19 @@
   }
 
   &.withIconRight {
-    padding-right: 42px;
+    padding-right: 44px;
   }
 }
 
 .togglePasswordBtn {
   position: absolute;
   right: $space-xs;
-  color: $color-text-subtle;
+  color: $color-text-muted;
   padding: $space-2xs;
   border-radius: $radius-sm;
   @include flex-center;
+  min-height: 40px;
+  min-width: 40px;
   transition: color $transition-fast;
 
   @include focus-ring;
@@ -127,10 +132,37 @@
   color: $color-expense;
 }
 
+.passwordChecklist {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: $space-2xs;
+  padding-left: 0;
+  list-style: none;
+  font-size: 0.75rem;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.3;
+    transition: color $transition-fast;
+  }
+}
+
+.met {
+  color: $color-primary-green;
+  font-weight: $font-weight-medium;
+}
+
+.unmet {
+  color: $color-text-muted;
+}
+
 .serverAlert {
   padding: $space-xs $space-sm;
   background-color: $color-expense-bg;
-  border: 1px solid rgba(244, 63, 94, 0.3);
+  border: 1px solid rgba(220, 38, 38, 0.2);
   border-radius: $radius-md;
   color: $color-expense;
   font-size: $font-size-xs;
@@ -150,12 +182,12 @@
   color: $color-text-muted;
 
   a {
-    color: $color-primary-500;
-    font-weight: $font-weight-semibold;
+    color: $color-primary-green;
+    font-weight: $font-weight-bold;
 
     &:hover {
+      color: $color-dark-green;
       text-decoration: underline;
     }
   }
 }
-

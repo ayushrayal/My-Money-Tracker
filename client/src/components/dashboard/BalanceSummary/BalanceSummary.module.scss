@@ -1,11 +1,63 @@
 @use '../../../styles/variables' as *;
 @use '../../../styles/mixins' as *;
 
+.sectionWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  margin-bottom: $space-lg;
+}
+
+.topRowActionBar {
+  @include flex-between;
+  gap: $space-sm;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 20;
+
+  @include respond-below('mobile') {
+    flex-direction: column;
+    align-items: stretch;
+    gap: $space-xs;
+  }
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.sectionTitle {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-text-main;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+
+  @include respond-below('mobile') {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+.monthPicker {
+  min-width: 170px;
+
+  @include respond-below('mobile') {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: $space-md;
-  margin-bottom: $space-lg;
 
   @include respond-to('mobile') {
     grid-template-columns: repeat(2, 1fr);
@@ -23,14 +75,20 @@
   flex-direction: column;
   gap: $space-sm;
   position: relative;
+  transition: transform $transition-fast, box-shadow $transition-fast;
+
+  &:hover {
+    box-shadow: $shadow-sm;
+    transform: translateY(-1px);
+  }
 
   @include respond-below('mobile') {
     padding: $space-md;
   }
 
   &.primaryHighlight {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(24, 34, 52, 1) 100%);
-    border-color: rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, rgba(8, 127, 91, 0.04) 0%, #ffffff 100%);
+    border-color: rgba(8, 127, 91, 0.3);
   }
 }
 
@@ -39,22 +97,22 @@
 }
 
 .label {
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
+  font-size: 0.75rem;
+  font-weight: $font-weight-bold;
   color: $color-text-muted;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .iconBadge {
-  width: 32px;
-  height: 32px;
-  border-radius: $radius-md;
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-lg;
   @include flex-center;
 
   &.balance {
-    background-color: rgba(16, 185, 129, 0.15);
-    color: $color-primary-500;
+    background-color: $color-soft-green;
+    color: $color-primary-green;
   }
 
   &.income {
@@ -77,9 +135,9 @@
   font-family: $font-mono;
   font-size: $font-size-2xl;
   font-weight: $font-weight-heavy;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: $color-text-main;
-  line-height: 1.1;
+  line-height: 1.15;
 
   @include respond-below('mobile') {
     font-size: $font-size-xl;
@@ -95,7 +153,6 @@
 }
 
 .footnote {
-  font-size: $font-size-xs;
-  color: $color-text-subtle;
+  font-size: 0.75rem;
+  color: $color-text-muted;
 }
-

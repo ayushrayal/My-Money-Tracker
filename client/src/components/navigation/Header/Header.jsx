@@ -5,7 +5,7 @@ import styles from './Header.module.scss';
 export function Header({ title = 'Dashboard' }) {
   const { user, logout } = useAuth();
 
-  // Current month formatting
+  // Current month formatting (e.g. "October 2026")
   const currentMonthYear = new Intl.DateTimeFormat('en-US', {
     month: 'short',
     year: 'numeric',
@@ -18,6 +18,11 @@ export function Header({ title = 'Dashboard' }) {
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   };
 
+  const getFirstName = (name) => {
+    if (!name) return 'there';
+    return name.trim().split(' ')[0];
+  };
+
   return (
     <header className={styles.header} role="banner">
       <div className={styles.headerInner}>
@@ -26,14 +31,19 @@ export function Header({ title = 'Dashboard' }) {
             <div className={styles.mobileLogo} aria-hidden="true">
               <Wallet size={18} />
             </div>
-            <span className={styles.mobileTitle}>Money Tracker</span>
           </div>
-          <h1 className={styles.desktopTitle}>{title}</h1>
+
+          <div className={styles.greetingGroup}>
+            {user ? (
+              <span className={styles.greetingText}>Welcome, {getFirstName(user.name)}</span>
+            ) : null}
+            <h1 className={styles.pageTitle}>{title}</h1>
+          </div>
         </div>
 
         <div className={styles.rightSection}>
           <div className={styles.dateFilter} title="Active billing cycle">
-            <Calendar size={14} aria-hidden="true" />
+            <Calendar size={14} color="#087F5B" aria-hidden="true" />
             <span>{currentMonthYear}</span>
           </div>
 

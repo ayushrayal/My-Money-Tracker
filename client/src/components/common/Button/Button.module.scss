@@ -13,7 +13,7 @@
   padding: $space-xs $space-md;
   transition: all $transition-fast;
   user-select: none;
-  min-height: 40px;
+  min-height: 44px;
   cursor: pointer;
 
   @include focus-ring;
@@ -24,20 +24,39 @@
   }
 
   &.primary {
-    background-color: $color-primary-600;
+    background-color: $color-primary-green;
     color: #ffffff;
-    border: 1px solid $color-primary-500;
+    border: 1px solid $color-primary-green;
+    box-shadow: 0 1px 2px rgba(8, 127, 91, 0.2);
 
     &:hover:not(:disabled) {
-      background-color: $color-primary-500;
-      box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);
+      background-color: $color-dark-green;
+      border-color: $color-dark-green;
+      box-shadow: 0 4px 12px rgba(8, 127, 91, 0.3);
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+  }
+
+  &.soft {
+    background-color: $color-soft-green;
+    color: $color-primary-green;
+    border: 1px solid transparent;
+
+    &:hover:not(:disabled) {
+      background-color: #d7ede0;
+      color: $color-dark-green;
     }
   }
 
   &.outline {
-    background-color: transparent;
+    background-color: #ffffff;
     color: $color-text-main;
-    border: 1px solid $color-border-subtle;
+    border: 1px solid $color-border;
+    box-shadow: $shadow-xs;
 
     &:hover:not(:disabled) {
       background-color: $color-surface-hover;
@@ -51,7 +70,7 @@
     border: 1px solid transparent;
 
     &:hover:not(:disabled) {
-      background-color: rgba(255, 255, 255, 0.05);
+      background-color: rgba(0, 0, 0, 0.04);
       color: $color-text-main;
     }
   }
@@ -59,15 +78,15 @@
   &.sm {
     padding: $space-2xs $space-sm;
     font-size: $font-size-xs;
-    min-height: 32px;
+    min-height: 36px;
   }
 
   &.iconOnly {
     padding: $space-xs;
     border-radius: $radius-md;
-    width: 38px;
-    height: 38px;
-    min-height: unset;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    min-width: 44px;
   }
 }
-
