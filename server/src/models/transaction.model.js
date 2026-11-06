@@ -72,21 +72,32 @@ const transactionSchema = new mongoose.Schema(
       maxlength: [500, 'Notes cannot exceed 500 characters'],
       default: '',
     },
+    receipt: {
+      filename: { type: String, default: null },
+      originalName: { type: String, default: null },
+      mimeType: { type: String, default: null },
+      size: { type: Number, default: null },
+      uploadedAt: { type: Date, default: null },
+    },
   },
   {
     timestamps: true,
     toJSON: {
       transform(doc, ret) {
-        ret.id = ret._id.toString();
-        delete ret._id;
+        if (ret._id) {
+          ret.id = ret._id.toString();
+          delete ret._id;
+        }
         delete ret.__v;
         return ret;
       },
     },
     toObject: {
       transform(doc, ret) {
-        ret.id = ret._id.toString();
-        delete ret._id;
+        if (ret._id) {
+          ret.id = ret._id.toString();
+          delete ret._id;
+        }
         delete ret.__v;
         return ret;
       },

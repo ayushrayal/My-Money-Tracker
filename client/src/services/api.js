@@ -99,10 +99,79 @@ export async function request(endpoint, options = {}) {
   }
 }
 
+/**
+ * Upload multipart form-data (e.g., receipt file attachment) with CSRF protection
+ */
+export async function uploadFile(endpoint, formData) {
+  const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${API_BASE}${normalizedEndpoint}`;
+
+  const headers = {};
+  const csrfToken = getCookie('mmt_csrf');
+  if (csrfToken) {
+    headers['X-CSRF-Token'] = csrfToken;
+  }
+
+  const response = await fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    headers,
+    body: formData,
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    const errorMessage = data?.error?.message || data?.message || response.statusText || 'Upload failed';
+    throw new ApiError(errorMessage, response.status, data?.error?.code || 'UPLOAD_ERROR', data);
+  }
+
+  return data;
+}
+
+/**
+ * Trigger file download from an authenticated endpoint (e.g., CSV export or receipt)
+ */
+export async function downloadFile(endpoint, defaultFilename = 'download.csv') {
+  const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${API_BASE}${normalizedEndpoint}`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new ApiError('File download failed', response.status, 'DOWNLOAD_ERROR');
+  }
+
+  // Extract filename from Content-Disposition if present
+  let filename = defaultFilename;
+  const disposition = response.headers.get('content-disposition');
+  if (disposition && disposition.includes('filename=')) {
+    const match = disposition.match(/filename="?([^";]+)"?/);
+    if (match && match[1]) {
+      filename = decodeURIComponent(match[1]);
+    }
+  }
+
+  const blob = await response.blob();
+  const blobUrl = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = blobUrl;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(blobUrl);
+}
+
 export const api = {
   get: (endpoint, options) => request(endpoint, { ...options, method: 'GET' }),
   post: (endpoint, body, options) => request(endpoint, { ...options, method: 'POST', body: JSON.stringify(body) }),
   put: (endpoint, body, options) => request(endpoint, { ...options, method: 'PUT', body: JSON.stringify(body) }),
   patch: (endpoint, body, options) => request(endpoint, { ...options, method: 'PATCH', body: JSON.stringify(body) }),
   delete: (endpoint, options) => request(endpoint, { ...options, method: 'DELETE' }),
+  upload: uploadFile,
+  download: downloadFile,
 };

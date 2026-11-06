@@ -1,0 +1,216 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.reportsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $space-md;
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+
+  @include respond-to('tablet') {
+    padding: $space-lg 0;
+  }
+}
+
+.topBar {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  background-color: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  padding: $space-md;
+  box-shadow: $shadow-sm;
+
+  @include respond-to('tablet') {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: $space-md $space-lg;
+  }
+}
+
+.titleArea {
+  h2 {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-heavy;
+    color: $color-text-main;
+    margin: 0;
+  }
+
+  p {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    margin: 2px 0 0 0;
+  }
+}
+
+.filterControls {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  flex-wrap: wrap;
+
+  select {
+    height: 38px;
+    padding: 0 $space-sm;
+    background-color: $color-bg-app;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-text-main;
+    outline: none;
+    cursor: pointer;
+
+    &:focus {
+      border-color: $color-primary-green;
+    }
+  }
+}
+
+.exportsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-sm;
+
+  @include respond-to('mobile') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to('desktop') {
+    grid-template-columns: repeat(4, 1fr);
+    gap: $space-md;
+  }
+}
+
+.exportCard {
+  background-color: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  padding: $space-md;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: $space-sm;
+  box-shadow: $shadow-xs;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $color-primary-green;
+    box-shadow: $shadow-sm;
+  }
+
+  .cardHead {
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+
+    .iconCircle {
+      width: 36px;
+      height: 36px;
+      border-radius: $radius-md;
+      background-color: $color-soft-green;
+      color: $color-primary-green;
+      @include flex-center;
+      flex-shrink: 0;
+    }
+
+    h4 {
+      font-size: $font-size-xs;
+      font-weight: $font-weight-bold;
+      color: $color-text-main;
+      margin: 0;
+    }
+  }
+
+  p {
+    font-size: 0.6875rem;
+    color: $color-text-muted;
+    margin: 0;
+  }
+}
+
+.downloadBtn {
+  min-height: 36px;
+  padding: 0 $space-sm;
+  background-color: $color-bg-app;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  color: $color-text-main;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all $transition-fast;
+
+  &:hover:not(:disabled) {
+    background-color: $color-soft-green;
+    border-color: $color-primary-green;
+    color: $color-dark-green;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.reportTableCard {
+  background-color: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  padding: $space-lg;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.cardTitle {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-text-main;
+  margin: 0;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.reportTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $font-size-xs;
+
+  th,
+  td {
+    padding: $space-xs $space-sm;
+    text-align: left;
+    border-bottom: 1px solid $color-border-subtle;
+  }
+
+  th {
+    background-color: $color-bg-app;
+    color: $color-text-muted;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+  }
+
+  tr:hover td {
+    background-color: rgba(229, 243, 234, 0.2);
+  }
+
+  .numeric {
+    text-align: right;
+  }
+}
+

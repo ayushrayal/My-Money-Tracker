@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import path from 'path';
+import fs from 'fs';
 import { Transaction } from '../models/transaction.model.js';
 import { Category } from '../models/category.model.js';
 import { Salary } from '../models/salary.model.js';
@@ -6,6 +8,7 @@ import { Budget } from '../models/budget.model.js';
 import { Loan } from '../models/loan.model.js';
 import { SavingsGoal } from '../models/savingsGoal.model.js';
 import { SavingsContribution } from '../models/savingsContribution.model.js';
+import { UPLOADS_DIR, validateMagicBytes } from '../middleware/upload.middleware.js';
 
 /**
  * Helper to compute precise start and end dates for a given month 'YYYY-MM'
@@ -503,6 +506,12 @@ export async function deleteTransaction(req, res, next) {
       });
     }
 
+    // Clean up receipt file if exists
+    if (deleted.receipt?.filename) {
+      const filePath = path.join(UPLOADS_DIR, deleted.receipt.filename);
+      fs.promises.unlink(filePath).catch(() => {});
+    }
+
     return res.status(200).json({
       success: true,
       message: 'Transaction deleted successfully.',
@@ -511,4 +520,176 @@ export async function deleteTransaction(req, res, next) {
     next(error);
   }
 }
+
+/**
+ * POST /api/transactions/:id/receipt
+ * Upload or replace a receipt attachment on a transaction
+ */
+export async function uploadReceiptHandler(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      if (req.file) {
+        await fs.promises.unlink(req.file.path).catch(() => {});
+      }
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid transaction ID',
+      });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'No receipt file uploaded',
+      });
+    }
+
+    // Validate magic bytes
+    const isValidSignature = await validateMagicBytes(req.file.path, req.file.mimetype);
+    if (!isValidSignature) {
+      await fs.promises.unlink(req.file.path).catch(() => {});
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid file signature or corrupted receipt file',
+      });
+    }
+
+    const transaction = await Transaction.findOne({ _id: id, userId: req.user._id });
+    if (!transaction) {
+      await fs.promises.unlink(req.file.path).catch(() => {});
+      return res.status(404).json({
+        success: false,
+        message: 'Transaction not found',
+      });
+    }
+
+    // Remove old receipt if exists
+    if (transaction.receipt?.filename) {
+      const oldPath = path.join(UPLOADS_DIR, transaction.receipt.filename);
+      await fs.promises.unlink(oldPath).catch(() => {});
+    }
+
+    transaction.receipt = {
+      filename: req.file.filename,
+      originalName: req.file.originalname,
+      mimeType: req.file.mimetype,
+      size: req.file.size,
+      uploadedAt: new Date(),
+    };
+
+    await transaction.save();
+    const populated = await transaction.populate('category');
+
+    return res.status(200).json({
+      success: true,
+      message: 'Receipt uploaded successfully',
+      data: {
+        transaction: populated.toJSON(),
+      },
+    });
+  } catch (error) {
+    if (req.file) {
+      await fs.promises.unlink(req.file.path).catch(() => {});
+    }
+    next(error);
+  }
+}
+
+/**
+ * GET /api/transactions/:id/receipt
+ * Download receipt attachment strictly scoped to authenticated user
+ */
+export async function downloadReceiptHandler(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid transaction ID',
+      });
+    }
+
+    const transaction = await Transaction.findOne({ _id: id, userId: req.user._id });
+    if (!transaction || !transaction.receipt?.filename) {
+      return res.status(404).json({
+        success: false,
+        message: 'Receipt attachment not found for this transaction',
+      });
+    }
+
+    const filePath = path.join(UPLOADS_DIR, transaction.receipt.filename);
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({
+        success: false,
+        message: 'Receipt file no longer exists on disk',
+      });
+    }
+
+    res.setHeader('Content-Type', transaction.receipt.mimeType);
+    res.setHeader(
+      'Content-Disposition',
+      `inline; filename="${encodeURIComponent(transaction.receipt.originalName || 'receipt')}"`
+    );
+    res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+
+    const stream = fs.createReadStream(filePath);
+    stream.on('error', (err) => next(err));
+    stream.pipe(res);
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * DELETE /api/transactions/:id/receipt
+ * Remove receipt attachment from transaction
+ */
+export async function deleteReceiptHandler(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid transaction ID',
+      });
+    }
+
+    const transaction = await Transaction.findOne({ _id: id, userId: req.user._id });
+    if (!transaction || !transaction.receipt?.filename) {
+      return res.status(404).json({
+        success: false,
+        message: 'Receipt not found on this transaction',
+      });
+    }
+
+    const filePath = path.join(UPLOADS_DIR, transaction.receipt.filename);
+    await fs.promises.unlink(filePath).catch(() => {});
+
+    transaction.receipt = {
+      filename: null,
+      originalName: null,
+      mimeType: null,
+      size: null,
+      uploadedAt: null,
+    };
+
+    await transaction.save();
+    const populated = await transaction.populate('category');
+
+    return res.status(200).json({
+      success: true,
+      message: 'Receipt deleted successfully',
+      data: {
+        transaction: populated.toJSON(),
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 

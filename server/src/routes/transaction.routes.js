@@ -6,10 +6,14 @@ import {
   getTransactionById,
   updateTransaction,
   deleteTransaction,
+  uploadReceiptHandler,
+  downloadReceiptHandler,
+  deleteReceiptHandler,
 } from '../controllers/transaction.controller.js';
 import { requireAuth } from '../middleware/auth.middleware.js';
 import { verifyCsrf } from '../middleware/csrf.middleware.js';
 import { validateRequest } from '../middleware/validate.js';
+import { uploadReceipt } from '../middleware/upload.middleware.js';
 import {
   createTransactionSchema,
   updateTransactionSchema,
@@ -26,6 +30,11 @@ router.post('/', verifyCsrf, validateRequest(createTransactionSchema), createTra
 router.get('/:id', getTransactionById);
 router.patch('/:id', verifyCsrf, validateRequest(updateTransactionSchema), updateTransaction);
 router.delete('/:id', verifyCsrf, deleteTransaction);
+
+// Receipt endpoints
+router.post('/:id/receipt', verifyCsrf, uploadReceipt.single('receipt'), uploadReceiptHandler);
+router.get('/:id/receipt', downloadReceiptHandler);
+router.delete('/:id/receipt', verifyCsrf, deleteReceiptHandler);
 
 export default router;
 

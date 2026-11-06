@@ -40,3 +40,10 @@ coverage/
 .nyc_output/
 .gemini/
 
+# Uploaded files
+uploads/
+*/uploads/
+server/uploads/
+
+test
+

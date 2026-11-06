@@ -1,9 +1,9 @@
 # My Money Tracker
 
-A secure, fast, mobile-first personal finance web application built to track income, expenses, category breakdowns, savings goals, and account activity with bank-grade session security and an emerald-green finance design system.
+A secure, fast, mobile-first personal finance web application built to track income, expenses, category breakdowns, savings goals, informal loans, analytics reports, and receipt attachments with bank-grade session security and an emerald-green finance design system.
 
-> **Feature Status: Phase 4 Completed (Salary, Budgets, Loans & Savings)**  
-> Comprehensive personal financial management is live: monthly salary configuration & actual receipt ledger linking, persistent monthly budget planning with 80% & 100% threshold indicators, informal loan debt & repayment tracking, and emergency fund milestone tracking with automatic ledger reconciliation. Verified with 49 passing backend integration tests and zero-warning frontend production builds.
+> **Feature Status: Phase 5 Completed (Profile, Analytics, Reports & Receipts)**  
+> Comprehensive personal financial intelligence is live: user profile and preferences management, dedicated financial analytics with monthly cash flow and category charts, downloadable structured CSV reports with formula injection mitigations, encrypted in-app notifications with deduplication, and secure transaction receipt management with magic-byte validation. Verified with 69 passing backend integration tests and zero-warning frontend production builds.
 
 ---
 
@@ -42,6 +42,11 @@ My Money Tracker is structured as a full-stack monorepo with an Express REST bac
 - **Savings Goals & Emergency Fund (Module 4)**: Milestone tracking, emergency fund setup (₹10,000 initial safety net milestone, ₹30,000 target amount), and internal transfer contributions.
 - **Reconciled Financial Dashboard (Module 5)**: Real-time cashflow, budget pacing, loan balances, and savings metrics reconciled without fabricated or dummy data.
 - **Custom Accessible Controls**: Bespoke, accessible `Select` dropdown, `MonthPicker` popover, and `DatePicker` calendar components replacing native browser controls for consistent styling, keyboard navigation, and mobile touch compliance.
+- **User Profile & Security (Phase 5 Module 1 & 2)**: Complete profile management, display name, email updating with collision protection, password rotation with current password verification, and financial preferences (currency, budget cycle start day, default salary, notification toggles).
+- **Financial Analytics (Phase 5 Module 3)**: Dedicated `/analytics` dashboard with 12-month Income vs Expense SVG charts, daily cumulative spending pacing, category distribution progress bars, and Month-over-Month variance metrics.
+- **Financial Reports & Safe CSV Exports (Phase 5 Module 4)**: Consolidated financial summary statements and instant RFC 4180 CSV exports for transactions, annual summaries, loans, and savings goals with CWE-1236 CSV formula injection defense.
+- **Receipt Attachment Management (Phase 5 Module 5)**: Optional transaction receipt attachments supporting JPEG, PNG, WebP, and PDF up to 5MB with server-side magic-byte header validation, private authenticated streaming, and auto-cleanup.
+- **In-App Notification Center (Phase 5 Module 6)**: Real-time notification bell with unread badge counter, budget 80% & 100% threshold alerts, loan repayment reminders, and milestone triggers with event-key deduplication.
 
 ---
 
@@ -425,6 +430,35 @@ To connect the application to MongoDB Atlas:
 - `DELETE /api/savings/:id/contributions/:contribId` — Reverse contribution, update current saved amount, and re-evaluate milestones.
 - `POST /api/savings/preset` — Seed the owner's Emergency Fund (₹30,000 target, ₹10,000 initial safety net milestone).
 
+### User Profile & Preferences (`/api/profile/*`)
+- `GET /api/profile` — Fetch authenticated user profile, avatar, account creation date, and preferences.
+- `PATCH /api/profile` — Update display name, email (with collision prevention), or avatar.
+- `POST /api/profile/change-password` — Change password with current-password verification.
+- `PATCH /api/profile/preferences` — Update currency preference, budget cycle start day, default salary, and notification toggles.
+
+### In-App Notifications (`/api/notifications/*`)
+- `GET /api/notifications` — List notifications with unread badge count (supports `?limit=N`).
+- `PATCH /api/notifications/:id/read` — Mark a notification as read.
+- `POST /api/notifications/read-all` — Mark all user notifications as read.
+- `DELETE /api/notifications/:id` — Dismiss/delete a notification.
+
+### Financial Analytics (`/api/analytics/*`)
+- `GET /api/analytics/overview` — Aggregated cash flow intelligence:
+  - Query parameters: `year` (e.g. `2026`), `month` (e.g. `2026-11`).
+  - Returns 12-month Income vs Expense array, daily cumulative spending pacing, category distribution, budget utilization, savings accumulation, loan payoff progress, and Month-over-Month variance metrics.
+
+### Financial Reports & CSV Exports (`/api/reports/*`)
+- `GET /api/reports/summary` — Consolidated JSON statement summary for the month and year.
+- `GET /api/reports/export/transactions` — Download RFC 4180 CSV transactions ledger with CWE-1236 formula injection defense (`?month=YYYY-MM`, `?startDate`, `?endDate`, `?type`, `?category`).
+- `GET /api/reports/export/monthly-summary` — Download 12-month annual financial statement CSV (`?year=YYYY`).
+- `GET /api/reports/export/loans` — Download loans and debt schedule CSV.
+- `GET /api/reports/export/savings` — Download savings goals and reserve targets CSV.
+
+### Receipt Management (`/api/transactions/:id/receipt`)
+- `POST /api/transactions/:id/receipt` — Upload or replace a receipt file attachment (`multipart/form-data`, max 5MB, validates JPEG, PNG, WebP, PDF magic bytes).
+- `GET /api/transactions/:id/receipt` — Private, authenticated download of transaction receipt.
+- `DELETE /api/transactions/:id/receipt` — Remove receipt attachment from transaction and delete file from disk.
+
 ---
 
 ## 10. API Request Examples
@@ -569,33 +603,64 @@ npm run test
 ✔ Phase 4: Salary, Budgets, Loans & Savings Integration Tests (4287.0ms)
 
 ▶ Transactions & Categories Integration Tests
-  ✔ GET /api/categories lists default categories for authenticated user (78.3ms)
-  ✔ POST /api/categories allows user to create a custom category (28.2ms)
-  ✔ POST /api/categories prevents duplicate category for the same user and type (27.4ms)
-  ✔ PATCH /api/categories/:id prevents modifying system default categories (14.7ms)
-  ✔ PATCH /api/categories/:id prevents User B from modifying User A custom category (12.4ms)
-  ✔ POST /api/transactions creates valid income transaction (31.4ms)
-  ✔ POST /api/transactions creates valid expense transaction (19.0ms)
+  ✔ GET /api/categories lists default categories for authenticated user (36.8ms)
+  ✔ POST /api/categories allows user to create a custom category (18.6ms)
+  ✔ POST /api/categories prevents duplicate category for the same user and type (13.4ms)
+  ✔ PATCH /api/categories/:id prevents modifying system default categories (12.8ms)
+  ✔ PATCH /api/categories/:id prevents User B from modifying User A custom category (9.6ms)
+  ✔ POST /api/transactions creates valid income transaction (24.4ms)
+  ✔ POST /api/transactions creates valid expense transaction (17.8ms)
   ✔ POST /api/transactions creates valid transfer transaction (no category required) (13.6ms)
-  ✔ POST /api/transactions rejects zero, negative, or invalid amounts (20.9ms)
-  ✔ POST /api/transactions rejects expense without category (10.5ms)
-  ✔ GET /api/transactions/:id rejects User B attempting to view User A transaction (13.3ms)
-  ✔ PATCH /api/transactions/:id rejects User B attempting to update User A transaction (12.4ms)
-  ✔ DELETE /api/transactions/:id rejects User B attempting to delete User A transaction (12.3ms)
-  ✔ GET /api/transactions/summary correctly calculates totals and excludes transfers (26.5ms)
-  ✔ DELETE /api/categories/:id prevents deleting custom category if referenced by transactions (34.0ms)
-  ✔ PATCH /api/transactions/:id updates transaction description and amount (22.9ms)
-  ✔ DELETE /api/transactions/:id removes transaction (24.8ms)
-✔ Transactions & Categories Integration Tests (3917.3ms)
+  ✔ POST /api/transactions rejects zero, negative, or invalid amounts (19.8ms)
+  ✔ POST /api/transactions rejects expense without category (10.4ms)
+  ✔ GET /api/transactions/:id rejects User B attempting to view User A transaction (12.4ms)
+  ✔ PATCH /api/transactions/:id rejects User B attempting to update User A transaction (11.6ms)
+  ✔ DELETE /api/transactions/:id rejects User B attempting to delete User A transaction (12.1ms)
+  ✔ GET /api/transactions/summary correctly calculates totals and excludes transfers (26.1ms)
+  ✔ DELETE /api/categories/:id prevents deleting custom category if referenced by transactions (25.9ms)
+  ✔ PATCH /api/transactions/:id updates transaction description and amount (18.5ms)
+  ✔ DELETE /api/transactions/:id removes transaction (17.7ms)
+✔ Transactions & Categories Integration Tests (3176.1ms)
 
-ℹ tests 49 | suites 8 | pass 49 | fail 0 | cancelled 0 | skipped 0 | todo 0
+▶ Phase 5: Profile, Analytics, Reports & Receipts Integration Tests
+  ▶ Module 1 & 2: User Profile and Financial Preferences
+    ✔ GET /api/profile returns authenticated user profile without passwordHash (24.1ms)
+    ✔ PATCH /api/profile updates display name and avatar (26.7ms)
+    ✔ PATCH /api/profile rejects duplicate email with 409 Conflict (19.3ms)
+    ✔ PATCH /api/profile/preferences updates financial and notification preferences (22.6ms)
+    ✔ POST /api/profile/change-password fails if current password is wrong (382.4ms)
+    ✔ POST /api/profile/change-password updates password and allows login with new password (1090.9ms)
+  ✔ Module 1 & 2: User Profile and Financial Preferences (1568.4ms)
+  ▶ Module 3: In-App Notifications
+    ✔ createNotificationIfNew deduplicates notifications with same eventKey (12.5ms)
+    ✔ GET /api/notifications lists notifications with unread count (20.3ms)
+    ✔ PATCH /api/notifications/:id/read marks notification as read (15.5ms)
+    ✔ POST /api/notifications/read-all marks all notifications as read (32.2ms)
+    ✔ DELETE /api/notifications/:id removes notification (15.2ms)
+  ✔ Module 3: In-App Notifications (97.0ms)
+  ▶ Module 4: Financial Analytics & Reports
+    ✔ GET /api/analytics/overview returns 12-month metrics and excludes transfers (62.2ms)
+    ✔ GET /api/reports/summary returns monthly and yearly aggregated JSON metrics (21.1ms)
+    ✔ GET /api/reports/export/transactions neutralizes formula injection (17.3ms)
+    ✔ GET /api/reports/export/monthly-summary exports 12 months CSV (13.2ms)
+    ✔ GET /api/reports/export/loans and savings export valid CSV headers (23.4ms)
+  ✔ Module 4: Financial Analytics & Reports (162.4ms)
+  ▶ Module 5: Receipt Management
+    ✔ POST /api/transactions/:id/receipt uploads valid PNG receipt attachment (35.7ms)
+    ✔ GET /api/transactions/:id/receipt downloads receipt for owner (21.0ms)
+    ✔ GET /api/transactions/:id/receipt rejects cross-user access with 404 (22.8ms)
+    ✔ DELETE /api/transactions/:id/receipt removes receipt attachment (22.6ms)
+  ✔ Module 5: Receipt Management (106.4ms)
+✔ Phase 5: Profile, Analytics, Reports & Receipts Integration Tests (4549.4ms)
+
+ℹ tests 69 | suites 13 | pass 69 | fail 0 | cancelled 0 | skipped 0 | todo 0
 ```
 
 ### Production Build Verification:
 ```bash
-npm run build
+npm run build --prefix client
 ```
-Vite transforms 1,634 modules and generates tree-shaken chunks with gzip asset compression and 0 errors or warnings.
+Vite transforms 1,656 modules and generates tree-shaken chunks with gzip asset compression and 0 errors or warnings.
 
 ---
 

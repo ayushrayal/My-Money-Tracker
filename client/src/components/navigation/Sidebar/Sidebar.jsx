@@ -6,6 +6,9 @@ import {
   PiggyBank,
   HandCoins,
   Wallet,
+  BarChart3,
+  FileSpreadsheet,
+  User,
 } from 'lucide-react';
 import { Badge } from '../../common/Badge/Badge';
 import styles from './Sidebar.module.scss';
@@ -16,6 +19,9 @@ const navItems = [
   { path: '/budgets', label: 'Budgets', icon: PieChart },
   { path: '/savings', label: 'Savings', icon: PiggyBank },
   { path: '/loans', label: 'Informal Loans', icon: HandCoins },
+  { path: '/analytics', label: 'Analytics', icon: BarChart3 },
+  { path: '/reports', label: 'Reports', icon: FileSpreadsheet },
+  { path: '/profile', label: 'Profile', icon: User },
 ];
 
 export function Sidebar() {

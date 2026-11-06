@@ -44,8 +44,10 @@ const loanPaymentSchema = new mongoose.Schema(
     toJSON: {
       virtuals: true,
       transform(doc, ret) {
-        ret.id = ret._id.toString();
-        delete ret._id;
+        if (ret._id) {
+          ret.id = ret._id.toString();
+          delete ret._id;
+        }
         delete ret.__v;
         return ret;
       },
@@ -53,8 +55,10 @@ const loanPaymentSchema = new mongoose.Schema(
     toObject: {
       virtuals: true,
       transform(doc, ret) {
-        ret.id = ret._id.toString();
-        delete ret._id;
+        if (ret._id) {
+          ret.id = ret._id.toString();
+          delete ret._id;
+        }
         delete ret.__v;
         return ret;
       },

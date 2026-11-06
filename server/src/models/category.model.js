@@ -45,16 +45,20 @@ const categorySchema = new mongoose.Schema(
     timestamps: true,
     toJSON: {
       transform(doc, ret) {
-        ret.id = ret._id.toString();
-        delete ret._id;
+        if (ret._id) {
+          ret.id = ret._id.toString();
+          delete ret._id;
+        }
         delete ret.__v;
         return ret;
       },
     },
     toObject: {
       transform(doc, ret) {
-        ret.id = ret._id.toString();
-        delete ret._id;
+        if (ret._id) {
+          ret.id = ret._id.toString();
+          delete ret._id;
+        }
         delete ret.__v;
         return ret;
       },

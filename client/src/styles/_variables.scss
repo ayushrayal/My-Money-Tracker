@@ -11,6 +11,8 @@ $color-primary-hover: #076b4d;
 // Neutrals & Surfaces (Clean Light Theme)
 $color-bg-app:        #F7F8F5;
 $color-surface-card:  #FFFFFF;
+$color-card-bg:       #FFFFFF;
+$color-white:         #FFFFFF;
 $color-surface-base:  #FFFFFF;
 $color-surface-hover: #F3F4F1;
 $color-surface-muted: #F9FAFB;
@@ -45,6 +47,7 @@ $color-demo-border:   #FDE047;
 $color-demo-text:     #854D0E;
 
 // Spacing Scale
+$space-3xs: 0.125rem; // 2px
 $space-2xs: 0.25rem;  // 4px
 $space-xs:  0.5rem;   // 8px
 $space-sm:  0.75rem;  // 12px
@@ -94,6 +97,7 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0
 // Transitions
 $transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 $transition-base: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+$transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 
 // Breakpoints
 $bp-mobile-sm: 320px;

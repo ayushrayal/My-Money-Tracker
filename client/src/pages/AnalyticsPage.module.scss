@@ -1,0 +1,256 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.analyticsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $space-md;
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+
+  @include respond-to('tablet') {
+    padding: $space-lg 0;
+  }
+}
+
+.topBar {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  background-color: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  padding: $space-md;
+  box-shadow: $shadow-sm;
+
+  @include respond-to('tablet') {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: $space-md $space-lg;
+  }
+}
+
+.titleArea {
+  h2 {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-heavy;
+    color: $color-text-main;
+    margin: 0;
+  }
+
+  p {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    margin: 2px 0 0 0;
+  }
+}
+
+.filterControls {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  flex-wrap: wrap;
+
+  select {
+    height: 38px;
+    padding: 0 $space-sm;
+    background-color: $color-bg-app;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-text-main;
+    outline: none;
+    cursor: pointer;
+
+    &:focus {
+      border-color: $color-primary-green;
+    }
+  }
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-sm;
+
+  @include respond-to('tablet') {
+    grid-template-columns: repeat(4, 1fr);
+    gap: $space-md;
+  }
+}
+
+.kpiCard {
+  background-color: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  padding: $space-md;
+  display: flex;
+  flex-direction: column;
+  gap: $space-3xs;
+  box-shadow: $shadow-xs;
+
+  .kpiLabel {
+    font-size: 0.6875rem;
+    font-weight: $font-weight-semibold;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .kpiValue {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-heavy;
+    color: $color-text-main;
+
+    &.income {
+      color: $color-income;
+    }
+    &.expense {
+      color: $color-expense;
+    }
+    &.net {
+      color: $color-primary-green;
+    }
+  }
+
+  .kpiSub {
+    font-size: 0.6875rem;
+    color: $color-text-muted;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    &.positive {
+      color: $color-income;
+    }
+    &.negative {
+      color: $color-expense;
+    }
+  }
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-lg;
+
+  @include respond-to('desktop') {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.chartCard {
+  background-color: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  padding: $space-lg;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.chartHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h3 {
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    color: $color-text-main;
+    margin: 0;
+  }
+
+  .chartLegend {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    font-size: 0.6875rem;
+    font-weight: $font-weight-semibold;
+    color: $color-text-muted;
+
+    .legendDot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      display: inline-block;
+      margin-right: 4px;
+    }
+  }
+}
+
+.barChartSvg {
+  width: 100%;
+  height: 240px;
+  overflow: visible;
+}
+
+.barGroup {
+  cursor: pointer;
+  transition: opacity $transition-fast;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.categoryList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.categoryRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.catInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: $font-size-xs;
+
+  .catName {
+    font-weight: $font-weight-semibold;
+    color: $color-text-main;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .catAmount {
+    font-weight: $font-weight-bold;
+    color: $color-text-main;
+  }
+}
+
+.progressBarContainer {
+  width: 100%;
+  height: 8px;
+  background-color: $color-bg-app;
+  border-radius: $radius-full;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  border-radius: $radius-full;
+  transition: width $transition-slow;
+}
+
+.emptyBox {
+  text-align: center;
+  padding: $space-xl $space-md;
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+}
+

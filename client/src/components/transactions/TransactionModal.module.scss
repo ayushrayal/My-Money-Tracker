@@ -52,6 +52,70 @@
   }
 }
 
+.receiptBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-xs $space-sm;
+  background-color: $color-bg-app;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  gap: $space-xs;
+}
+
+.receiptInfo {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  font-size: $font-size-xs;
+  color: $color-text-main;
+  overflow: hidden;
+
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: $font-weight-medium;
+  }
+
+  small {
+    color: $color-text-muted;
+    font-size: 0.6875rem;
+  }
+}
+
+.receiptActionBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: $radius-sm;
+  display: inline-flex;
+  align-items: center;
+  color: $color-text-muted;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-expense;
+  }
+
+  &.download:hover {
+    color: $color-primary-green;
+  }
+}
+
+.fileInputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  input[type='file'] {
+    font-size: $font-size-xs;
+    color: $color-text-main;
+    cursor: pointer;
+  }
+}
+
 .modalHeaderLeft {
   display: flex;
   flex-direction: column;
@@ -103,6 +167,70 @@
 
   @include respond-below('mobile') {
     padding: $space-md;
+  }
+}
+
+.receiptBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-xs $space-sm;
+  background-color: $color-bg-app;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  gap: $space-xs;
+}
+
+.receiptInfo {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  font-size: $font-size-xs;
+  color: $color-text-main;
+  overflow: hidden;
+
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: $font-weight-medium;
+  }
+
+  small {
+    color: $color-text-muted;
+    font-size: 0.6875rem;
+  }
+}
+
+.receiptActionBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: $radius-sm;
+  display: inline-flex;
+  align-items: center;
+  color: $color-text-muted;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-expense;
+  }
+
+  &.download:hover {
+    color: $color-primary-green;
+  }
+}
+
+.fileInputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  input[type='file'] {
+    font-size: $font-size-xs;
+    color: $color-text-main;
+    cursor: pointer;
   }
 }
 

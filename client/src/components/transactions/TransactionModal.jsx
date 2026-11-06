@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { X, AlertCircle } from 'lucide-react';
+import { X, AlertCircle, Paperclip, Download, Trash2, FileText } from 'lucide-react';
 import { Button } from '../common/Button/Button';
 import { Select } from '../common/Select/Select';
 import { DatePicker } from '../common/DatePicker/DatePicker';
+import { receiptService } from '../../services/receiptService';
 import styles from './TransactionModal.module.scss';
 
 const PAYMENT_METHODS = [
@@ -51,6 +52,8 @@ export function TransactionModal({
   const [paymentMethod, setPaymentMethod] = useState('upi');
   const [date, setDate] = useState(() => formatToDateInputString());
   const [notes, setNotes] = useState('');
+  const [receiptFile, setReceiptFile] = useState(null);
+  const [existingReceipt, setExistingReceipt] = useState(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -69,6 +72,8 @@ export function TransactionModal({
       setPaymentMethod(initialData.paymentMethod || 'upi');
       setDate(formatToDateInputString(initialData.date));
       setNotes(initialData.notes || '');
+      setExistingReceipt(initialData.receipt?.filename ? initialData.receipt : null);
+      setReceiptFile(null);
     } else {
       setType(defaultType);
       setAmount('');
@@ -77,6 +82,8 @@ export function TransactionModal({
       setPaymentMethod('upi');
       setDate(formatToDateInputString());
       setNotes('');
+      setExistingReceipt(null);
+      setReceiptFile(null);
     }
     setErrorMessage('');
     setFieldErrors({});
@@ -173,7 +180,7 @@ export function TransactionModal({
         payload.category = null;
       }
 
-      await onSubmit(payload);
+      await onSubmit(payload, receiptFile);
       onClose();
     } catch (err) {
       if (err.details?.error?.fields) {
@@ -413,6 +420,76 @@ export function TransactionModal({
                 disabled={isSubmitting}
                 maxLength={500}
               />
+            </div>
+
+            {/* Receipt Attachment */}
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <Paperclip size={13} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 4 }} />
+                Receipt Attachment (Optional)
+              </label>
+
+              {existingReceipt ? (
+                <div className={styles.receiptBox}>
+                  <div className={styles.receiptInfo}>
+                    <FileText size={16} color="#087F5B" />
+                    <div>
+                      <span>{existingReceipt.originalName || 'receipt'}</span>
+                      {existingReceipt.size && (
+                        <small> ({Math.round(existingReceipt.size / 1024)} KB)</small>
+                      )}
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    <button
+                      type="button"
+                      className={`${styles.receiptActionBtn} ${styles.download}`}
+                      title="Download receipt"
+                      onClick={() =>
+                        receiptService.downloadReceipt(
+                          initialData?.id || initialData?._id,
+                          existingReceipt.originalName || 'receipt'
+                        )
+                      }
+                    >
+                      <Download size={14} />
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.receiptActionBtn}
+                      title="Remove receipt"
+                      onClick={async () => {
+                        if (initialData?.id || initialData?._id) {
+                          try {
+                            await receiptService.deleteReceipt(initialData.id || initialData._id);
+                            setExistingReceipt(null);
+                          } catch (err) {
+                            alert('Failed to remove receipt: ' + err.message);
+                          }
+                        }
+                      }}
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className={styles.fileInputWrapper}>
+                  <input
+                    type="file"
+                    accept=".jpg,.jpeg,.png,.webp,.pdf"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        setReceiptFile(e.target.files[0]);
+                      }
+                    }}
+                    disabled={isSubmitting}
+                  />
+                  <span style={{ fontSize: '0.6875rem', color: '#6B7280' }}>
+                    Accepted: JPEG, PNG, WebP, PDF (Max 5MB)
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 

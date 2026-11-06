@@ -10,6 +10,7 @@ import {
   ChevronRight,
   AlertCircle,
   Filter,
+  Paperclip,
 } from 'lucide-react';
 import {
   fetchTransactions,
@@ -18,6 +19,7 @@ import {
   deleteTransaction,
 } from '../services/transactionService';
 import { fetchCategories } from '../services/categoryService';
+import { receiptService } from '../services/receiptService';
 import { TransactionModal } from '../components/transactions/TransactionModal';
 import { DeleteConfirmModal } from '../components/transactions/DeleteConfirmModal';
 import { Button } from '../components/common/Button/Button';
@@ -101,11 +103,15 @@ export function TransactionsPage() {
     loadTransactions();
   }, [loadTransactions]);
 
-  const handleCreateOrUpdate = async (formData) => {
+  const handleCreateOrUpdate = async (formData, receiptFile) => {
+    let tx;
     if (editingTransaction) {
-      await updateTransaction(editingTransaction.id || editingTransaction._id, formData);
+      tx = await updateTransaction(editingTransaction.id || editingTransaction._id, formData);
     } else {
-      await createTransaction(formData);
+      tx = await createTransaction(formData);
+    }
+    if (receiptFile && (tx?.id || tx?._id)) {
+      await receiptService.uploadReceipt(tx.id || tx._id, receiptFile);
     }
     await loadTransactions();
   };
@@ -364,7 +370,36 @@ export function TransactionsPage() {
                           </td>
                           <td>
                             <div className={styles.txDetails}>
-                              <span className={styles.txDescription}>{tx.description}</span>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                <span className={styles.txDescription}>{tx.description}</span>
+                                {tx.receipt?.filename && (
+                                  <button
+                                    type="button"
+                                    title={`Download receipt: ${tx.receipt.originalName || 'file'}`}
+                                    onClick={() =>
+                                      receiptService.downloadReceipt(
+                                        tx.id || tx._id,
+                                        tx.receipt.originalName || 'receipt'
+                                      )
+                                    }
+                                    style={{
+                                      background: '#E5F3EA',
+                                      color: '#087F5B',
+                                      border: 'none',
+                                      padding: '2px 6px',
+                                      borderRadius: '4px',
+                                      fontSize: '0.6875rem',
+                                      fontWeight: 600,
+                                      cursor: 'pointer',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: 3,
+                                    }}
+                                  >
+                                    <Paperclip size={10} /> Receipt
+                                  </button>
+                                )}
+                              </div>
                               {tx.notes && <span className={styles.txNotes}>{tx.notes}</span>}
                             </div>
                           </td>
@@ -464,11 +499,40 @@ export function TransactionsPage() {
                     )}
 
                     <div className={styles.mobileCardFooter}>
-                      {tx.category ? (
-                        <Badge variant="neutral">{tx.category.name}</Badge>
-                      ) : (
-                        <Badge variant="info">Transfer</Badge>
-                      )}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        {tx.category ? (
+                          <Badge variant="neutral">{tx.category.name}</Badge>
+                        ) : (
+                          <Badge variant="info">Transfer</Badge>
+                        )}
+                        {tx.receipt?.filename && (
+                          <button
+                            type="button"
+                            title="Download receipt"
+                            onClick={() =>
+                              receiptService.downloadReceipt(
+                                tx.id || tx._id,
+                                tx.receipt.originalName || 'receipt'
+                              )
+                            }
+                            style={{
+                              background: '#E5F3EA',
+                              color: '#087F5B',
+                              border: 'none',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              fontSize: '0.6875rem',
+                              fontWeight: 600,
+                              cursor: 'pointer',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 2,
+                            }}
+                          >
+                            <Paperclip size={10} /> Receipt
+                          </button>
+                        )}
+                      </div>
 
                       <div className={styles.actionCell}>
                         <button

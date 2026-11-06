@@ -20,6 +20,15 @@ const SavingsPage = lazy(() =>
 const LoansPage = lazy(() =>
   import('./pages/LoansPage').then((m) => ({ default: m.LoansPage }))
 );
+const AnalyticsPage = lazy(() =>
+  import('./pages/AnalyticsPage').then((m) => ({ default: m.AnalyticsPage }))
+);
+const ReportsPage = lazy(() =>
+  import('./pages/ReportsPage').then((m) => ({ default: m.ReportsPage }))
+);
+const ProfilePage = lazy(() =>
+  import('./pages/ProfilePage').then((m) => ({ default: m.ProfilePage }))
+);
 const NotFoundPage = lazy(() =>
   import('./pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage }))
 );
@@ -60,6 +69,9 @@ export function App() {
                 <Route path="budgets" element={<BudgetsPage />} />
                 <Route path="savings" element={<SavingsPage />} />
                 <Route path="loans" element={<LoansPage />} />
+                <Route path="analytics" element={<AnalyticsPage />} />
+                <Route path="reports" element={<ReportsPage />} />
+                <Route path="profile" element={<ProfilePage />} />
               </Route>
             </Route>
 

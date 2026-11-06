@@ -7,6 +7,10 @@ import salaryRoutes from './salary.routes.js';
 import budgetRoutes from './budget.routes.js';
 import loanRoutes from './loan.routes.js';
 import savingsRoutes from './savings.routes.js';
+import profileRoutes from './profile.routes.js';
+import notificationRoutes from './notification.routes.js';
+import analyticsRoutes from './analytics.routes.js';
+import reportRoutes from './report.routes.js';
 
 const router = Router();
 
@@ -28,11 +32,17 @@ router.use('/budgets', budgetRoutes);
 router.use('/loans', loanRoutes);
 router.use('/savings', savingsRoutes);
 
+// Mount Phase 5 endpoints
+router.use('/profile', profileRoutes);
+router.use('/notifications', notificationRoutes);
+router.use('/analytics', analyticsRoutes);
+router.use('/reports', reportRoutes);
+
 // General API root info: GET /api
 router.get('/', (req, res) => {
   res.status(200).json({
     success: true,
-    message: 'My Money Tracker API — Phase 4 Salary, Budgets, Loans & Savings',
+    message: 'My Money Tracker API — Phase 5 Profile, Analytics, Reports & Receipts',
     endpoints: {
       health: '/api/health',
       auth: {
